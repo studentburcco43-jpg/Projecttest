@@ -3,11 +3,12 @@ from contextlib import contextmanager
 
 DB_PATH = "data.db"
 
+# Initialize database and create tables on startup
 def init_db() -> None:
     """Initialize the database schema if it doesn't exist."""
     conn = sqlite3.connect(DB_PATH)
     try:
-        """Create the service table. Update this function to modify the schema as needed. And to add additional tables."""
+        # Create the service table to store service information
         conn.execute("""
             CREATE TABLE IF NOT EXISTS service (
                 id    INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,6 +21,7 @@ def init_db() -> None:
         conn.close()
 
 
+# Context manager to safely get and close database connections
 @contextmanager
 def get_conn():
     conn = sqlite3.connect(DB_PATH, check_same_thread=False)

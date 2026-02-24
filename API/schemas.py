@@ -1,15 +1,18 @@
 from pydantic import BaseModel
 
-# Schema for Service table
+# Service Table Schema - defines the structure and validation for service data
+
 class ServiceBase(BaseModel):
+    # Base class with common service fields
     ServiceName: str
     Cost: float
 
 class ServiceCreate(ServiceBase):
+    # Schema used when creating a new service (no ID needed, it's auto-generated)
     pass
 
 class Service(ServiceBase):
+    # Schema used when returning a service from the database (includes ID)
     id: int
-#End Service table schema
 
-# You can add additional schemas for other tables here as needed. Duplicate the pattern above.
+# You can add additional schemas for other tables here as needed by following the same pattern above

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Job Summary</title>
+  <!-- Load Bootstrap CSS and custom styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+  <!-- Header Component: navigation and toast container (loaded by app.js) -->
+  <div id="header-component"></div>
+
+  <!-- Job Summary Content: replace this with real job data or keep as a blank template -->
+  <main class="container my-5">
+    <h1 class="mb-4">Job Summary</h1>
+    <!-- Blank template: add job details, images, or tables here -->
+    <p class="text-muted">This page is a placeholder for job summary details. Add job information, images, or status updates here.</p>
+
+    <!-- Example card area where job items could be placed -->
+    <div class="row" id="jobList">
+      <!-- Cards representing jobs will go here -->
+    </div>
+  </main>
+
+  <table>
+    <tr>
+        <td>Example Job 1</td>
+    </tr>
+    <tr>
+        <td>Example Job 2</td>
+  </table>
+  <style>
+  table, th, td {
+    border: 5px solid rgb(6, 153, 13); /* Sets a 1-pixel solid black border on the table, header, and data cells */
+    border-collapse: collapse; /* Collapses the borders into a single line */
+  }
+  th, td {
+    padding: 8px; /* Adds space around the content inside cells */
+    text-align: left; /* Aligns text to the left */
+  }
+</style>
+
+
+  <!-- Load Bootstrap JS and site script that loads the header -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

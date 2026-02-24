@@ -1,10 +1,10 @@
-// Load header component
+// Load the header component from header-component.html file into the page
 function loadHeader() {
     fetch('header-component.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-component').innerHTML = data;
-            // Set active nav link based on current page
+            // Highlight the current page link in the navigation menu as active
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
@@ -20,8 +20,7 @@ function loadHeader() {
         .catch(error => console.error('Error loading header:', error));
 }
 
-// Helper function to show toast notifications
-// Toast notifications are popups that appear briefly (top right corner) to inform the user of errors or other information.
+// Display a toast notification popup to show messages to the user
 function showToast(message) {
     $('#toastMessage').text(message);
     var toastEl = document.getElementById('errorToast');
@@ -29,5 +28,5 @@ function showToast(message) {
     toast.show();
 }
 
-// Load header when Page is ready
+// Run the loadHeader function when the page finishes loading
 document.addEventListener('DOMContentLoaded', loadHeader);

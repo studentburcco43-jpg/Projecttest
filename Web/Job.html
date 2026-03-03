@@ -6,45 +6,187 @@
   <title>Job Summary</title>
   <!-- Load Bootstrap CSS and custom styles -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/site.css?v=8">
+  <style>
+    /* Lawncare-themed table that looks like stacked cards */
+    body {
+      background: linear-gradient(180deg,#ffffff 0%, #e9f9e6 50%, #ffffff 100%);
+      color: #1f3b13;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    /* wrapper keeps content centered and gives breathing room */
+    .fancy-table-wrapper{
+      max-width:900px; /* slightly narrower for neat look */
+      margin:0 auto;
+      padding:0 15px; /* prevent cards from touching screen edges */
+    }
+
+    /* table with block-level rows for card appearance */
+    .fancy-table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0 16px;
+    }
+
+    /* Keep thead hidden visually but accessible to screen readers */
+    .fancy-table thead{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      border:0;
+    }
+    .fancy-table tbody tr{display:block;background:linear-gradient(180deg,#68BA7F 0%, #f2fff1 100%);box-shadow:0 8px 20px rgba(31,59,19,0.06);border-radius:12px;padding:18px;transition:transform .18s ease,box-shadow .18s ease}
+    .fancy-table tbody tr:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(31,59,19,0.12)}
+    .job-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;align-items:center}
+    .job-cell{padding:6px 10px}
+    .job-id{font-weight:700;color:#145214}
+    .job-title{font-size:1.05rem;font-weight:600}
+    .job-meta{font-size:.88rem;color:#2b6b2b}
+    .status-pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:600;font-size:.82rem}
+    .status-scheduled{background:linear-gradient(90deg,#c3f3bf,#c9f0c3);color:#0b5b0f}
+    .status-inprogress{background:linear-gradient(90deg,#9dd17a,#fff0bc);color:#6b4b00}
+    .status-complete{background:linear-gradient(90deg,#e6fff7,#d0fff0);color:#00664d}
+    .notes{font-size:.9rem;color:#000000}
+    .job-actions{text-align:right}
+    .price{font-weight:700;color:#0b5b0f}
+    @media (max-width:900px){
+      .job-row{grid-template-columns:1fr 1fr;}
+    }
+    @media (max-width:520px){
+      .job-row{grid-template-columns:1fr;}
+      .job-actions{text-align:left;margin-top:8px}
+    }
+    /* subtle decorative grass at card bottom */
+    .job-row::after{content:'';display:block;height:8px;border-bottom-left-radius:12px;border-bottom-right-radius:12px;margin-top:12px;background:linear-gradient(90deg,#9dd17a 0%,#9dd17a 50%,#9dd17a 100%);opacity:.08}
+  </style>
 </head>
 <body>
   <!-- Header Component: navigation and toast container (loaded by app.js) -->
   <div id="header-component"></div>
 
   <!-- Job Summary Content: replace this with real job data or keep as a blank template -->
-  <main class="container my-5">
+  <main class="container my-5 fancy-table-wrapper">
     <h1 class="mb-4">Job Summary</h1>
-    <!-- Blank template: add job details, images, or tables here -->
-    <p class="text-muted">This page is a placeholder for job summary details. Add job information, images, or status updates here.</p>
+    <p class="text-muted">Overview of recent and upcoming jobs.</p>
 
-    <!-- Example card area where job items could be placed -->
-    <div class="row" id="jobList">
-      <!-- Cards representing jobs will go here -->
-    </div>
+    <table class="fancy-table" role="grid" aria-label="Job summary table with job ID, client address, schedule, and details">
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>Client / Address</th>
+          <th>Schedule / Crew</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td role="gridcell">
+            <div class="job-row">
+              <div class="job-cell">
+                <div class="job-id">#J-001</div>
+                <div class="job-title">Lawn Restoration — Zone A</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">Elena Martinez<br>432 Greenway Ln</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">2026-03-02 • Crew: Alpha</div>
+                <div class="status-pill status-scheduled">Scheduled</div>
+              </div>
+              <div class="job-cell">
+                <div class="notes">Seeding, topsoil, and native plant integration. Est. 8 hrs</div>
+                <div class="job-actions price">$420</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td role="gridcell">
+            <div class="job-row">
+              <div class="job-cell">
+                <div class="job-id">#J-002</div>
+                <div class="job-title">Weekly Maintenance — Residence</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">The Harris Family<br>12 Maple St</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">Ongoing • Crew: Bravo</div>
+                <div class="status-pill status-inprogress">In Progress</div>
+              </div>
+              <div class="job-cell">
+                <div class="notes">Mow, edge, clear clippings. Apply selective weed control.</div>
+                <div class="job-actions price">$85 / visit</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td role="gridcell">
+            <div class="job-row">
+              <div class="job-cell">
+                <div class="job-id">#J-003</div>
+                <div class="job-title">Spring Fertilization — Commercial</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">Oakridge Condos<br>1001 Oakridge Blvd</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">2026-03-10 • Crew: Delta</div>
+                <div class="status-pill status-scheduled">Scheduled</div>
+              </div>
+              <div class="job-cell">
+                <div class="notes">Slow-release fertilizer application. Precaution around beds.</div>
+                <div class="job-actions price">$1,200</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td role="gridcell">
+            <div class="job-row">
+              <div class="job-cell">
+                <div class="job-id">#J-004</div>
+                <div class="job-title">Aeration & Overseed — Parkside</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">Parkside HOA<br>Community Park</div>
+              </div>
+              <div class="job-cell">
+                <div class="job-meta">2026-03-15 • Crew: Echo</div>
+                <div class="status-pill status-complete">Complete</div>
+              </div>
+              <div class="job-cell">
+                <div class="notes">Completed successfully. Recommended follow-up in 6 weeks.</div>
+                <div class="job-actions price">$760</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </main>
-
-  <table>
-    <tr>
-        <td>Example Job 1</td>
-    </tr>
-    <tr>
-        <td>Example Job 2</td>
-  </table>
-  <style>
-  table, th, td {
-    border: 5px solid rgb(6, 153, 13); /* Sets a 1-pixel solid black border on the table, header, and data cells */
-    border-collapse: collapse; /* Collapses the borders into a single line */
-  }
-  th, td {
-    padding: 8px; /* Adds space around the content inside cells */
-    text-align: left; /* Aligns text to the left */
-  }
-</style>
 
 
   <!-- Load Bootstrap JS and site script that loads the header -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    /* Enhance table accessibility: announce job cards to screen readers */
+    document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('.fancy-table tbody tr');
+      rows.forEach((row, index) => {
+        row.setAttribute('role', 'row');
+        row.setAttribute('aria-rowindex', index + 2); /* +2 accounts for header row and 1-based indexing */
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,118 @@
+/* Global layout and background to avoid white blank pages */
+html, body {
+	height: 100%;
+	margin: 0;
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	/* light green gradient evoking lawn and sky */
+	background: linear-gradient(180deg, #e9f9e6 0%, #f7fff9 100%);
+	color: #1f3b13; /* dark grass green */
+}
+
+main.container {
+	min-height: calc(100vh - 160px);
+}
+
+/* Job cards: make the list look like cards rather than a table */
+.job-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 1rem;
+}
+
+.job-card {
+	background: #fcfff5; /* off-white with green tint */
+	border-radius: 12px;
+	box-shadow: 0 6px 18px rgba(31,59,19,0.1);
+	padding: 1rem;
+	transition: transform 200ms ease, box-shadow 200ms ease;
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+.job-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 12px 32px rgba(31,59,19,0.18);
+}
+
+.job-card .job-title {
+	font-weight: 600;
+	color: #145214; /* deep lawn green */
+}
+.job-card .job-meta {
+	font-size: .9rem;
+	color: #2b6b2b;
+}
+
+/* Make any left-over table elements unobtrusive */
+table { border-collapse: collapse; width: 100%; background: transparent; }
+table, th, td { border: none; }
+
+/* Link colors to match lawn theme */
+a {
+	color: #145214;
+}
+a:hover, a:focus {
+	color: #0b3b0f;
+}
+
+/* Override bootstrap primary color to green */
+.btn-primary {
+	background-color: #145214;
+	border-color: #0b3b0f;
+}
+.btn-primary:hover {
+	background-color: #0b3b0f;
+	border-color: #0a2f0d;
+}
+.btn-outline-secondary {
+	color: #145214;
+	border-color: #145214;
+}
+.btn-outline-secondary:hover {
+	background-color: #e9f9e6;
+}
+
+/* Custom navbar color */
+.navbar-custom {
+	background-color: #145214 !important;
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+	color: #f7fff9 !important;
+}
+.navbar-custom .nav-link.active,
+.navbar-custom .nav-link:hover {
+	color: #e9f9e6 !important;
+}
+
+/* Override some Bootstrap utility classes to reinforce the green palette */
+.bg-light {
+	background-color: #e9f9e6 !important; /* soft green */
+}
+.card {
+	background-color: #fcfff5 !important;
+}
+.btn-secondary {
+	background-color: #2b6b2b !important;
+	border-color: #2b6b2b !important;
+	color: #f7fff9 !important;
+}
+.btn-secondary:hover {
+	background-color: #265e26 !important;
+	border-color: #265e26 !important;
+}
+
+/* Adjust body gradient to be more vivid green transition */
+html, body {
+	height: 100%;
+	margin: 0;
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	/* stronger lawn green gradient */
+	background: linear-gradient(180deg, #dff5dd 0%, #f7fff9 100%);
+	color: #1f3b13; /* dark grass green */
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+	.job-card { padding: .75rem; }
+}

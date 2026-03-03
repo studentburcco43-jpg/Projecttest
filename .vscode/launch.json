@@ -2,18 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Open Website (Start Server then Open Browser)",
-            "type": "pwa-chrome",
-            "request": "launch",
-            "url": "http://localhost:8000",
-            "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "Start FastAPI Server"
-        }
-    ]
-}
-{
-    "version": "0.2.0",
-    "configurations": [
+           "name": "Open Website (Start Server then Open Browser)",
+    "type": "extensionHost",
+    "request": "launch",
+    "runtimeExecutable": "code",
+    "args": ["--open-url", "http://localhost:8000"],
+    "preLaunchTask": "Start FastAPI Server"
+
+        },
         {
             "name": "Python Debugger: FastAPI",
             "type": "debugpy",

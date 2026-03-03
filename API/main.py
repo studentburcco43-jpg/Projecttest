@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .database import init_db, get_conn
 from . import crud, schemas
+from pathlib import Path
+import logging
 
 # Create the FastAPI application instance
 app = FastAPI()
@@ -47,4 +49,16 @@ def delete_service(service_id: int, db: sqlite3.Connection = Depends(get_db)):
     return None
 
 # Mount the Web folder to serve HTML, CSS, and JS files - "/" automatically serves index.html
-app.mount("/", StaticFiles(directory="Web", html=True), name="web")
+# Resolve an absolute path for the `Web` static folder so the app works
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BASE_DIR / "Web"
+if not STATIC_DIR.exists():
+    logging.warning("Static directory %s does not exist", STATIC_DIR)
+
+app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="web")
+
+
+# Basic health-check endpoint
+@app.get("/health")
+def health():
+    return {"status": "ok"}

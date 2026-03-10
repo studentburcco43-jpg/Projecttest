@@ -34,7 +34,7 @@ function setupLoginForm() {
             document.getElementById('passwordError').textContent = '';
         }
     });
-
+ 
     // Handle form submission
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();

@@ -1,0 +1,2 @@
+# Allow Apache to interpret .html and .htm files as PHP scripts
+AddType application/x-httpd-php .php .html .htm

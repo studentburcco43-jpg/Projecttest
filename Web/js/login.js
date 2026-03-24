@@ -139,21 +139,23 @@ function setupPasswordToggle() {
     });
 }
 
-// Simulate login API call (replace with actual backend call)
+// Perform login by posting to server-side script
 function simulateLogin(email, password) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            // Demo credentials
-            if (email === 'demo@grimeguys.com' && password === 'demo123') {
-                // Store user session (in real app, store JWT token)
-                sessionStorage.setItem('userEmail', email);
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('loginTime', new Date().toISOString());
-                resolve();
-            } else {
-                reject(new Error('Invalid email or password. Try demo@grimeguys.com / demo123'));
-            }
-        }, 1000); // Simulate network delay
+    return fetch('Login.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+    }).then(resp => {
+        if (resp.redirected) {
+            // PHP script redirected to index.html on success
+            return Promise.resolve();
+        }
+        // otherwise treat as failure
+        return resp.text().then(txt => {
+            throw new Error(txt || 'Login failed');
+        });
     });
 }
 
@@ -221,3 +223,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+

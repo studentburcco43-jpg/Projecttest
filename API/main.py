@@ -48,6 +48,35 @@ def delete_service(service_id: int, db: sqlite3.Connection = Depends(get_db)):
     crud.delete_service(db, service_id)
     return None
 
+# ---- API Routes for Profit Tracker ----
+
+@app.get("/api/profits", response_model=list[schemas.Profit])
+def get_profits(db: sqlite3.Connection = Depends(get_db)):
+    return crud.get_profits(db)
+
+@app.post("/api/profits", response_model=schemas.Profit)
+def create_profit(profit: schemas.ProfitCreate, db: sqlite3.Connection = Depends(get_db)):
+    return crud.create_profit(db, profit)
+
+@app.delete("/api/profits/{profit_id}", status_code=204)
+def delete_profit(profit_id: int, db: sqlite3.Connection = Depends(get_db)):
+    crud.delete_profit(db, profit_id)
+    return None
+
+@app.get("/api/profits/{profit_id}", response_model=schemas.Profit)
+def get_profit(profit_id: int, db: sqlite3.Connection = Depends(get_db)):
+    profit = crud.get_profit(db, profit_id)
+    if profit is None:
+        return {"detail": "Not Found"}
+    return profit
+
+@app.put("/api/profits/{profit_id}", response_model=schemas.Profit)
+def update_profit(profit_id: int, updates: schemas.ProfitCreate, db: sqlite3.Connection = Depends(get_db)):
+    updated = crud.update_profit(db, profit_id, updates)
+    if updated is None:
+        return {"detail": "Not Found"}
+    return updated
+
 # Mount the Web folder to serve HTML, CSS, and JS files - "/" automatically serves index.html
 # Resolve an absolute path for the `Web` static folder so the app works
 BASE_DIR = Path(__file__).resolve().parent.parent

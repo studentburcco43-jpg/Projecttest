@@ -91,3 +91,18 @@ app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="web")
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/api/profits/{profit_id}", response_model=schemas.Profit)
+def get_profit(profit_id: int, db: sqlite3.Connection = Depends(get_db)):
+    profit = crud.get_profit(db, profit_id)
+    if profit is None:
+        return {"detail": "Not Found"}
+    return profit
+
+
+@app.put("/api/profits/{profit_id}", response_model=schemas.Profit)
+def update_profit(profit_id: int, updates: schemas.ProfitCreate, db: sqlite3.Connection = Depends(get_db)):
+    updated = crud.update_profit(db, profit_id, updates)
+    if updated is None:
+        return {"detail": "Not Found"}
+    return updated

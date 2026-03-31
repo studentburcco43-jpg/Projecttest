@@ -14,7 +14,17 @@ def init_db() -> None:
                 id    INTEGER PRIMARY KEY AUTOINCREMENT,
                 ServiceName  TEXT NOT NULL,
                 Cost REAL NOT NULL
-            )
+            );
+        """)
+
+        conn.execute("""
+           CREATE TABLE IF NOT EXISTS profit (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                category TEXT NOT NULL,
+                revenue REAL NOT NULL,
+                expenses REAL NOT NULL,
+                notes TEXT
+            );
         """)
         # Create the profit table to store profit tracker entries
         conn.execute("""
@@ -27,6 +37,8 @@ def init_db() -> None:
             );
         """)
         conn.commit()
+
+
     finally:
         conn.close()
 

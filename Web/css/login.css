@@ -294,3 +294,33 @@
         transform: translateY(0);
     }
 }
+
+.status-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: #e0e0e0;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Match your existing pill colors */
+.status-scheduled {
+  background-color: #d0e8ff;
+  color: #005fa3;
+}
+
+.status-inprogress {
+  background-color: #fff4cc;
+  color: #a67c00;
+}
+
+.status-complete {
+  background-color: #d4f5d4;
+  color: #2d7a2d;
+}

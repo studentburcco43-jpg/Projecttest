@@ -92,12 +92,25 @@
                 <div class="job-title">Lawn Restoration — Zone A</div>
               </div>
               <div class="job-cell">
-                <div class="job-meta">Elena Martinez<br>432 Greenway Ln</div>
+                <div class="job-meta">
+                Client Name: <input type="text" name="clientName" placeholder="Enter client name">
+                <br>
+                Location: <input type="text" name="location" placeholder="Enter location">
+              </div>
               </div>
               <div class="job-cell">
                 <div class="job-meta">Date: </div>
-                <div class="status-pill status-scheduled">Scheduled</div>
+                <div class="status-pill">
+                  <select name="status" class="status-select">
+                    <option value="scheduled">Scheduled</option>
+                    <option value="inprogress">In Progress</option>
+                    <option value="complete">Complete</option>
+                  </select>
+                </div>
+
+
               </div>
+              
             </div>
           </td>
         </tr>
@@ -110,7 +123,13 @@
                 <div class="job-title">Weekly Maintenance — Residence</div>
               </div>
               <div class="job-cell">
-                <div class="job-meta">The Harris Family<br>12 Maple St</div>
+                <div class="job-cell">
+                <div class="job-meta">
+                Client Name: <input type="text" name="clientName" placeholder="Enter client name">
+                <br>
+                Location: <input type="text" name="location" placeholder="Enter location">
+              </div>
+              </div>
               </div>
               <div class="job-cell">
                 <div class="job-meta">Date:</div>
@@ -128,7 +147,11 @@
                 <div class="job-title">Spring Fertilization — Commercial</div>
               </div>
               <div class="job-cell">
-                <div class="job-meta">Oakridge Condos<br>1001 Oakridge Blvd</div>
+                <div class="job-meta">
+                  Client Name: <input type="text" name="clientName" placeholder="Enter client name">
+                  <br>
+                  Location: <input type="text" name="location" placeholder="Enter location">
+                </div>
               </div>
               <div class="job-cell">
                 <div class="job-meta">Date: </div>
@@ -146,7 +169,11 @@
                 <div class="job-title">Aeration & Overseed — Parkside</div>
               </div>
               <div class="job-cell">
-                <div class="job-meta">Parkside HOA<br>Community Park</div>
+                <div class="job-meta">
+                  Client Name: <input type="text" name="clientName" placeholder="Enter client name">
+                  <br>
+                  Location: <input type="text" name="location" placeholder="Enter location">
+                </div>
               </div>
               <div class="job-cell">
                 <div class="job-meta">Date: </div>
@@ -173,5 +200,20 @@
       });
     });
   </script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const selects = document.querySelectorAll(".status-select");
+
+  selects.forEach(select => {
+    const applyClass = () => {
+      select.classList.remove("status-scheduled", "status-inprogress", "status-complete");
+      select.classList.add(`status-${select.value}`);
+    };
+
+    applyClass(); // set initial state
+    select.addEventListener("change", applyClass);
+  });
+});
+</script>
 </body>
 </html>

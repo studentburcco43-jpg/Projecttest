@@ -31,4 +31,55 @@ class ProfitCreate(ProfitBase):
 class Profit(ProfitBase):
     id: int
 
+# -----------------------------
+# Ad Table Schemas
+# -----------------------------
+
+class AdBase(BaseModel):
+    campaign: str
+    impressions: int
+    clicks: int
+    cost: float
+    conversions: int | None = None
+    notes: str | None = None
+
+class AdCreate(AdBase):
+    pass
+
+class Ad(AdBase):
+    id: int
+
+# -----------------------------
+# Client Table Schemas
+# -----------------------------
+
+class ClientBase(BaseModel):
+    ClientName: str
+
+class ClientCreate(ClientBase):
+    pass
+
+class Client(ClientBase):
+    id: int
+
+# -----------------------------
+# Job Table Schemas
+# -----------------------------
+
+class JobBase(BaseModel):
+    client_id: int
+    job_date: str
+    service_id: int
+    service_details: str | None = None
+    income: float
+    expenses: float
+    expense_notes: str | None = None
+    status: str
+
+class JobCreate(JobBase):
+    pass
+
+class Job(JobBase):
+    id: int
+
 # You can add additional schemas for other tables here as needed by following the same pattern above

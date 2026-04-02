@@ -77,6 +77,72 @@ def update_profit(profit_id: int, updates: schemas.ProfitCreate, db: sqlite3.Con
         return {"detail": "Not Found"}
     return updated
 
+# ---- API Routes for Ad Reports ----
+
+@app.get("/api/ads", response_model=list[schemas.Ad])
+def get_ads(db: sqlite3.Connection = Depends(get_db)):
+    return crud.get_ads(db)
+
+@app.post("/api/ads", response_model=schemas.Ad)
+def create_ad(ad: schemas.AdCreate, db: sqlite3.Connection = Depends(get_db)):
+    return crud.create_ad(db, ad)
+
+@app.delete("/api/ads/{ad_id}", status_code=204)
+def delete_ad(ad_id: int, db: sqlite3.Connection = Depends(get_db)):
+    crud.delete_ad(db, ad_id)
+    return None
+
+@app.get("/api/ads/{ad_id}", response_model=schemas.Ad)
+def get_ad(ad_id: int, db: sqlite3.Connection = Depends(get_db)):
+    ad = crud.get_ad(db, ad_id)
+    if ad is None:
+        return {"detail": "Not Found"}
+    return ad
+
+@app.put("/api/ads/{ad_id}", response_model=schemas.Ad)
+def update_ad(ad_id: int, updates: schemas.AdCreate, db: sqlite3.Connection = Depends(get_db)):
+    updated = crud.update_ad(db, ad_id, updates)
+    if updated is None:
+        return {"detail": "Not Found"}
+    return updated
+
+# ---- API Routes for Clients ----
+
+@app.get("/api/clients", response_model=list[schemas.Client])
+def get_clients(db: sqlite3.Connection = Depends(get_db)):
+    return crud.get_clients(db)
+
+@app.post("/api/clients", response_model=schemas.Client)
+def create_client(client: schemas.ClientCreate, db: sqlite3.Connection = Depends(get_db)):
+    return crud.create_client(db, client)
+
+@app.delete("/api/clients/{client_id}", status_code=204)
+def delete_client(client_id: int, db: sqlite3.Connection = Depends(get_db)):
+    crud.delete_client(db, client_id)
+    return None
+
+# ---- API Routes for Jobs ----
+
+@app.get("/api/jobs", response_model=list[schemas.Job])
+def get_jobs(db: sqlite3.Connection = Depends(get_db)):
+    return crud.get_jobs(db)
+
+@app.post("/api/jobs", response_model=schemas.Job)
+def create_job(job: schemas.JobCreate, db: sqlite3.Connection = Depends(get_db)):
+    return crud.create_job(db, job)
+
+@app.delete("/api/jobs/{job_id}", status_code=204)
+def delete_job(job_id: int, db: sqlite3.Connection = Depends(get_db)):
+    crud.delete_job(db, job_id)
+    return None
+
+@app.get("/api/jobs/{job_id}", response_model=schemas.Job)
+def get_job(job_id: int, db: sqlite3.Connection = Depends(get_db)):
+    job = crud.get_job(db, job_id)
+    if job is None:
+        return {"detail": "Not Found"}
+    return job
+
 # Mount the Web folder to serve HTML, CSS, and JS files - "/" automatically serves index.html
 # Resolve an absolute path for the `Web` static folder so the app works
 BASE_DIR = Path(__file__).resolve().parent.parent

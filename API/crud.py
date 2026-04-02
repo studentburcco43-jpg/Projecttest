@@ -96,3 +96,175 @@ def update_profit(conn, profit_id: int, updates):
     conn.commit()
 
     return get_profit(conn, profit_id)
+
+# -----------------------------
+# CRUD for Ad Table
+# -----------------------------
+
+def get_ads(conn: sqlite3.Connection) -> list[schemas.Ad]:
+    cur = conn.execute(
+        "SELECT id, campaign, impressions, clicks, cost, conversions, notes FROM ad ORDER BY id;"
+    )
+    rows = cur.fetchall()
+    return [
+        schemas.Ad(
+            id=row["id"],
+            campaign=row["campaign"],
+            impressions=row["impressions"],
+            clicks=row["clicks"],
+            cost=row["cost"],
+            conversions=row["conversions"],
+            notes=row["notes"]
+        )
+        for row in rows
+    ]
+
+
+def create_ad(conn: sqlite3.Connection, ad: schemas.AdCreate) -> schemas.Ad:
+    cur = conn.execute(
+        "INSERT INTO ad (campaign, impressions, clicks, cost, conversions, notes) VALUES (?, ?, ?, ?, ?, ?);",
+        (ad.campaign, ad.impressions, ad.clicks, ad.cost, ad.conversions, ad.notes)
+    )
+    conn.commit()
+
+    new_id = cur.lastrowid
+    return schemas.Ad(
+        id=new_id,
+        campaign=ad.campaign,
+        impressions=ad.impressions,
+        clicks=ad.clicks,
+        cost=ad.cost,
+        conversions=ad.conversions,
+        notes=ad.notes
+    )
+
+
+def delete_ad(conn: sqlite3.Connection, ad_id: int) -> None:
+    conn.execute("DELETE FROM ad WHERE id = ?;", (ad_id,))
+    conn.commit()
+
+
+def get_ad(conn, ad_id: int):
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT id, campaign, impressions, clicks, cost, conversions, notes FROM ad WHERE id = ?",
+        (ad_id,)
+    )
+    row = cur.fetchone()
+
+    if row:
+        return schemas.Ad(
+            id=row[0],
+            campaign=row[1],
+            impressions=row[2],
+            clicks=row[3],
+            cost=row[4],
+            conversions=row[5],
+            notes=row[6]
+        )
+    return None
+
+
+def update_ad(conn, ad_id: int, updates):
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE ad SET campaign = ?, impressions = ?, clicks = ?, cost = ?, conversions = ?, notes = ? WHERE id = ?",
+        (updates.campaign, updates.impressions, updates.clicks, updates.cost, updates.conversions, updates.notes, ad_id)
+    )
+    conn.commit()
+
+    return get_ad(conn, ad_id)
+
+# -----------------------------
+# CRUD for Client Table
+# -----------------------------
+
+def get_clients(conn: sqlite3.Connection) -> list[schemas.Client]:
+    cur = conn.execute("SELECT id, ClientName FROM client ORDER BY id;")
+    rows = cur.fetchall()
+    return [schemas.Client(id=row["id"], ClientName=row["ClientName"]) for row in rows]
+
+def create_client(conn: sqlite3.Connection, client: schemas.ClientCreate) -> schemas.Client:
+    cur = conn.execute(
+        "INSERT INTO client (ClientName) VALUES (?);",
+        (client.ClientName,)
+    )
+    conn.commit()
+
+    new_id = cur.lastrowid
+    return schemas.Client(id=new_id, ClientName=client.ClientName)
+
+def delete_client(conn: sqlite3.Connection, client_id: int) -> None:
+    conn.execute("DELETE FROM client WHERE id = ?;", (client_id,))
+    conn.commit()
+
+# -----------------------------
+# CRUD for Job Table
+# -----------------------------
+
+def get_jobs(conn: sqlite3.Connection) -> list[schemas.Job]:
+    cur = conn.execute("""
+        SELECT id, client_id, job_date, service_id, service_details, income, expenses, expense_notes, status 
+        FROM job ORDER BY id;
+    """)
+    rows = cur.fetchall()
+    return [
+        schemas.Job(
+            id=row["id"],
+            client_id=row["client_id"],
+            job_date=row["job_date"],
+            service_id=row["service_id"],
+            service_details=row["service_details"],
+            income=row["income"],
+            expenses=row["expenses"],
+            expense_notes=row["expense_notes"],
+            status=row["status"]
+        )
+        for row in rows
+    ]
+
+def create_job(conn: sqlite3.Connection, job: schemas.JobCreate) -> schemas.Job:
+    cur = conn.execute(
+        "INSERT INTO job (client_id, job_date, service_id, service_details, income, expenses, expense_notes, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+        (job.client_id, job.job_date, job.service_id, job.service_details, job.income, job.expenses, job.expense_notes, job.status)
+    )
+    conn.commit()
+
+    new_id = cur.lastrowid
+    return schemas.Job(
+        id=new_id,
+        client_id=job.client_id,
+        job_date=job.job_date,
+        service_id=job.service_id,
+        service_details=job.service_details,
+        income=job.income,
+        expenses=job.expenses,
+        expense_notes=job.expense_notes,
+        status=job.status
+    )
+
+def delete_job(conn: sqlite3.Connection, job_id: int) -> None:
+    conn.execute("DELETE FROM job WHERE id = ?;", (job_id,))
+    conn.commit()
+
+def get_job(conn, job_id: int):
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT id, client_id, job_date, service_id, service_details, income, expenses, expense_notes, status FROM job WHERE id = ?",
+        (job_id,)
+    )
+    row = cur.fetchone()
+
+    if row:
+        return schemas.Job(
+            id=row[0],
+            client_id=row[1],
+            job_date=row[2],
+            service_id=row[3],
+            service_details=row[4],
+            income=row[5],
+            expenses=row[6],
+            expense_notes=row[7],
+            status=row[8]
+        )
+    return None

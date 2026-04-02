@@ -1,25 +1,37 @@
-// Load the header component from header-component.html file into the page
+// This function loads the header component from the header-component.html file into the page.
 function loadHeader() {
+    // This uses the fetch API to request the content of the header-component.html file from the server.
     fetch('header-component.html')
+        // This processes the server response as plain text.
         .then(response => response.text())
+        // This takes the text content and inserts it into the HTML element with the ID 'header-component'.
         .then(data => {
             document.getElementById('header-component').innerHTML = data;
-            // Highlight the current page link in the navigation menu as active
+            // This determines the current page by extracting the last part of the URL path, defaulting to 'index.html' if empty.
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            // This selects all navigation link elements on the page.
             const navLinks = document.querySelectorAll('.nav-link');
+            // This loops through each navigation link to check if it matches the current page.
             navLinks.forEach(link => {
+                // This checks if the link's href attribute matches the current page.
                 if (link.getAttribute('href') === currentPage) {
+                    // This adds the 'active' class to highlight the current page link.
                     link.classList.add('active');
+                    // This sets the aria-current attribute for accessibility, indicating the current page.
                     link.setAttribute('aria-current', 'page');
                 } else {
+                    // This removes the 'active' class from non-current links.
                     link.classList.remove('active');
+                    // This removes the aria-current attribute from non-current links.
                     link.removeAttribute('aria-current');
                 }
             });
         })
+        // This handles any errors that occur during the fetch request.
         .catch(error => {
+            // This logs the error to the console for debugging purposes.
             console.error('Error loading header:', error);
-            // Fallback header markup if fetch fails (e.g., opened via file:// or server not running)
+            // This provides a fallback header markup if the fetch fails, such as when the file is opened locally or the server is not running.
             document.getElementById('header-component').innerHTML = `
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container">
@@ -48,19 +60,25 @@ function loadHeader() {
         });
 }
 
-// Display a toast notification popup to show messages to the user
+// This function displays a toast notification popup to show messages to the user.
 function showToast(message) {
+    // This gets the HTML element where the toast message will be displayed.
     var msgEl = document.getElementById('toastMessage');
+    // This sets the text content of the message element to the provided message, if the element exists.
     if (msgEl) msgEl.textContent = message;
+    // This gets the toast HTML element.
     var toastEl = document.getElementById('errorToast');
+    // This checks if the toast element exists and if Bootstrap is available.
     if (toastEl && typeof bootstrap !== 'undefined') {
+        // This creates a new Bootstrap toast instance with auto-hide enabled and a 4-second delay.
         var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 4000 });
+        // This shows the toast notification.
         toast.show();
     } else {
-        // Fallback: briefly flash message in console
+        // This provides a fallback by logging the message to the console if Bootstrap is not available.
         console.info('Toast:', message);
     }
 }
 
-// Run the loadHeader function when the page finishes loading
+// This adds an event listener that runs the loadHeader function when the page's DOM content has finished loading.
 document.addEventListener('DOMContentLoaded', loadHeader);

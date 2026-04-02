@@ -48,9 +48,9 @@
     .job-title{font-size:1.05rem;font-weight:600}
     .job-meta{font-size:.88rem;color:#397c3c}
     .status-pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:600;font-size:.82rem}
-    .status-scheduled{background:linear-gradient(90deg,#c3f3bf,#c9f0c3);color:#0b5b0f}
-    .status-inprogress{background:linear-gradient(90deg,#babd00,#b8bb00);color:#ffffff}
-    .status-complete{background:linear-gradient(90deg,#e6fff7,#d0fff0);color:#00664d}
+    .status-scheduled{background:linear-gradient(90deg,#e0e406,#c9f0c3);color:#0b5b0f}
+    .status-inprogress{background:linear-gradient(90deg,#aabd00,#f2f3b4);color:#ffffff}
+    .status-complete{background:linear-gradient(90deg,#e6fff7,#8df7d5);color:#00664d}
     .notes{font-size:.9rem;color:#25882a}
     .job-actions{text-align:right}
     .price{font-weight:700;color:#13722b}
@@ -81,197 +81,106 @@
             <div class="job-row">
               <div class="job-cell">
                 <div class="job-id">#J-001</div>
-                <div class="job-title">Lawn Restoration — Zone A</div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-meta">
-                Client Name: <input type="text" name="clientName" placeholder="Enter client name">
-                <br>
-                Location: <input type="text" name="location" placeholder="Enter location">
-              </div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-meta">Date: </div>
-                <div class="status-pill">
-                  <select name="status" class="status-select">
-                    <option value="scheduled">Scheduled</option>
-                    <option value="inprogress">In Progress</option>
-                    <option value="complete">Complete</option>
-                  </select>
-                </div>
-
-
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
-
-                    <!-- Date + Status Dropdown -->
-                    <div class="job-cell">
-                      <div class="job-meta">Date:</div>
-
-                      <select class="form-select form-select-sm mt-1"
-                              style="border-radius: 999px; font-weight: 600; color:#0b5b0f;
-                                    background: linear-gradient(90deg,#c3f3bf,#c9f0c3); border:none;">
-                        <option selected>Scheduled</option>
-                        <option>In Progress</option>
-                        <option>Completed</option>
-                      </select>
-                    </div>
-
-                  </div>
-                </td>
-              </tr>
-
+              <div class="job-cell">
+                <div class="job-meta">Date:</div>
+                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
+                  <option value="scheduled" selected>Scheduled</option>
+                  <option value="inprogress">In Progress</option>
+                  <option value="complete">Completed</option>
+                </select>
+              </div>
             </div>
           </td>
         </tr>
-
         <tr>
           <td role="gridcell">
             <div class="job-row">
               <div class="job-cell">
                 <div class="job-id">#J-002</div>
-                <div class="job-title">Weekly Maintenance — Residence</div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-cell">
-                <div class="job-meta">
-                Client Name: <input type="text" name="clientName" placeholder="Enter client name">
-                <br>
-                Location: <input type="text" name="location" placeholder="Enter location">
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
-              </div>
+              <div class="job-cell">
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
                 <div class="job-meta">Date:</div>
-                <div class="status-pill status-inprogress">In Progress</div>
+                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
+                  <option value="scheduled">Scheduled</option>
+                  <option value="inprogress" selected>In Progress</option>
+                  <option value="complete">Completed</option>
+                </select>
               </div>
             </div>
           </td>
         </tr>
-
         <tr>
           <td role="gridcell">
             <div class="job-row">
               <div class="job-cell">
-<<<<<<< HEAD
                 <div class="job-id">#J-003</div>
-                <div class="job-title">Spring Fertilization — Commercial</div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-meta">
-                  Client Name: <input type="text" name="clientName" placeholder="Enter client name">
-                  <br>
-                  Location: <input type="text" name="location" placeholder="Enter location">
-                </div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-meta">Date: </div>
-                <div class="status-pill status-scheduled">Scheduled</div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
-=======
-                      <div class="job-id">#J-003</div>
-
-                      <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">
-                        Job Title:
-                      </label>
-                      <input type="text" class="form-control form-control-sm mt-1"
-                            value="Lawn Restoration — Zone A"
-                            style="border-radius: 8px; border: 1px solid #9dd88c;">
-                    </div>
-
-                    <!-- Editable Client Name + Location -->
-                    <div class="job-cell">
-                      <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">
-                        Client Name:
-                      </label>
-                      <input type="text" class="form-control form-control-sm mb-2 mt-1"
-                            value="Elena Martinez"
-                            style="border-radius: 8px; border: 1px solid #9dd88c;">
-
-                      <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">
-                        Location:
-                      </label>
-                      <input type="text" class="form-control form-control-sm mt-1"
-                            value="432 Greenway Ln"
-                            style="border-radius: 8px; border: 1px solid #9dd88c;">
-                    </div>
-
-                    <!-- Date + Status Dropdown -->
-                    <div class="job-cell">
-                      <div class="job-meta">Date:</div>
-
-                      <select class="form-select form-select-sm mt-1"
-                              style="border-radius: 999px; font-weight: 600; color:#0b5b0f;
-                                    background: linear-gradient(90deg,#c3f3bf,#c9f0c3); border:none;">
-                        <option selected>Scheduled</option>
-                        <option>In Progress</option>
-                        <option>Completed</option>
-                      </select>
-                    </div>
->>>>>>> 24e03ea31213ce9a438d1da34442c08b6dcd3e73
+              <div class="job-cell">
+                <div class="job-meta">Date:</div>
+                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
+                  <option value="scheduled" selected>Scheduled</option>
+                  <option value="inprogress">In Progress</option>
+                  <option value="complete">Completed</option>
+                </select>
+              </div>
             </div>
           </td>
         </tr>
-
         <tr>
           <td role="gridcell">
             <div class="job-row">
               <div class="job-cell">
-<<<<<<< HEAD
                 <div class="job-id">#J-004</div>
-                <div class="job-title">Aeration & Overseed — Parkside</div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-meta">
-                  Client Name: <input type="text" name="clientName" placeholder="Enter client name">
-                  <br>
-                  Location: <input type="text" name="location" placeholder="Enter location">
-                </div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
               <div class="job-cell">
-                <div class="job-meta">Date: </div>
-                <div class="status-pill status-complete">Complete</div>
+                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
+                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
               </div>
-=======
-                      <div class="job-id">#J-004</div>
-
-                      <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">
-                        Job Title:
-                      </label>
-                      <input type="text" class="form-control form-control-sm mt-1"
-                            value="Lawn Restoration — Zone A"
-                            style="border-radius: 8px; border: 1px solid #9dd88c;">
-                    </div>
-
-                    <!-- Editable Client Name + Location -->
-                    <div class="job-cell">
-                      <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">
-                        Client Name:
-                      </label>
-                      <input type="text" class="form-control form-control-sm mb-2 mt-1"
-                            value="Elena Martinez"
-                            style="border-radius: 8px; border: 1px solid #9dd88c;">
-
-                      <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">
-                        Location:
-                      </label>
-                      <input type="text" class="form-control form-control-sm mt-1"
-                            value="432 Greenway Ln"
-                            style="border-radius: 8px; border: 1px solid #9dd88c;">
-                    </div>
-
-                    <!-- Date + Status Dropdown -->
-                    <div class="job-cell">
-                      <div class="job-meta">Date:</div>
-
-                      <select class="form-select form-select-sm mt-1"
-                              style="border-radius: 999px; font-weight: 600; color:#0b5b0f;
-                                    background: linear-gradient(90deg,#c3f3bf,#c9f0c3); border:none;">
-                        <option selected>Scheduled</option>
-                        <option>In Progress</option>
-                        <option>Completed</option>
-                      </select>
-                    </div>
->>>>>>> 24e03ea31213ce9a438d1da34442c08b6dcd3e73
+              <div class="job-cell">
+                <div class="job-meta">Date:</div>
+                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
+                  <option value="scheduled">Scheduled</option>
+                  <option value="inprogress">In Progress</option>
+                  <option value="complete" selected>Completed</option>
+                </select>
+              </div>
             </div>
           </td>
         </tr>

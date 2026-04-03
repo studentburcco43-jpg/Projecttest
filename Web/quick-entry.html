@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Entry - Jobs, Clients & Services</title>
+    <style>
+        :root {
+            --primary-color: #154913;
+            --secondary-color: #e9f5e9;
+            --accent-color: #1a8f32;
+            --border-color: #aac0a0;
+            --text-color: #0e2b16;
+            --danger-color: #b72f2f;
+            --success-color: #286841;
+            --warning-color: #ed8936;
+            --card-bg: #f5fff5;
+            --container-bg: #e8f8e8;
+            --header-bg: #0f3d14;
+            --button-bg: #1b6b2e;
+            --button-hover: #154f24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', Arial, sans-serif;
+            background: linear-gradient(180deg, #e8fbed 0%, #d4f2d6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            border: 2px solid #b9d7b6;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--header-bg);
+            color: #fff;
+            padding: 26px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: #c9edcd;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-btn:hover {
+            background: var(--button-hover);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .page-section {
+            padding: 20px;
+        }
+
+        .page-section + .page-section {
+            padding-top: 0;
+        }
+
+        .section-heading {
+            font-size: 20px;
+            font-weight: 700;
+            color: #154913;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            color: #376345;
+            font-size: 14px;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+            border: 1px solid #b7d2b6;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
+            color: #154913;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-title.income {
+            border-bottom-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .form-title.expense {
+            border-bottom-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        label .required {
+            color: var(--danger-color);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .money-input-group {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .money-input-group::before {
+            content: "$";
+            position: absolute;
+            left: 10px;
+            color: var(--text-color);
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .money-input-group input {
+            padding-left: 25px !important;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #2e7d32;
+        }
+
+        .btn-submit.expense {
+            background: var(--danger-color);
+        }
+
+        .btn-submit.expense:hover {
+            background: #b71c1c;
+        }
+
+        .error {
+            color: var(--danger-color);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: var(--success-color);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .summary-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+            margin-top: 20px;
+            border: 1px solid #b7d2b6;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #154913;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .entries-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .entry-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 10px;
+            background: var(--secondary-color);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .entry-item.income {
+            border-left-color: var(--success-color);
+        }
+
+        .entry-item.expense {
+            border-left-color: var(--danger-color);
+        }
+
+        .entry-content {
+            flex: 1;
+        }
+
+        .entry-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 3px;
+        }
+
+        .entry-description {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 3px;
+        }
+
+        .entry-amount {
+            font-weight: 600;
+            color: var(--success-color);
+        }
+
+        .entry-item.expense .entry-amount {
+            color: var(--danger-color);
+        }
+
+        .entry-delete {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: background 0.3s;
+        }
+
+        .entry-delete:hover {
+            background: #b71c1c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            background: var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .stat-box.income .stat-value {
+            color: var(--success-color);
+        }
+
+        .stat-box.expense .stat-value {
+            color: var(--danger-color);
+        }
+
+        .stat-box.profit .stat-value {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Grime Guys Quick Entry</h1>
+            <p>Fast entry for clients, services, jobs, and expenses</p>
+            <button class="back-btn" onclick="window.location.href='/Dashboard.php'">← Back</button>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-heading">Clients & Services</h2>
+            <p class="section-subtitle">Set up names and pricing without leaving the quick entry workflow.</p>
+
+            <div class="main-content">
+                <div class="form-card">
+                    <h2 class="form-title">👥 Add Client</h2>
+                    <form id="clientForm">
+                        <div class="form-group">
+                            <label for="clientName">Client Name <span class="required">*</span></label>
+                            <input type="text" id="clientName" name="client_name" placeholder="Enter client name..." required>
+                            <div class="error" id="clientError"></div>
+                            <div class="success" id="clientSuccess"></div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Create Client</button>
+                    </form>
+                </div>
+
+                <div class="form-card">
+                    <h2 class="form-title">🛠️ Add Service</h2>
+                    <form id="serviceForm">
+                        <div class="form-group">
+                            <label for="serviceName">Service Name <span class="required">*</span></label>
+                            <input type="text" id="serviceName" name="service_name" placeholder="Enter service name..." required>
+                            <div class="error" id="serviceError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceCost">Cost <span class="required">*</span></label>
+                            <div class="money-input-group">
+                                <input type="number" id="serviceCost" name="service_cost" placeholder="0.00" min="0" step="0.01" required>
+                            </div>
+                            <div class="success" id="serviceSuccess"></div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Create Service</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-heading">Jobs & Expenses</h2>
+            <p class="section-subtitle">Capture revenue and expense activity using the same styling and flow.</p>
+
+            <div class="main-content">
+                <!-- Income Form -->
+                <div class="form-card">
+                    <h2 class="form-title income">📊 Add Job (Income)</h2>
+                    <form id="incomeForm">
+                        <div class="form-group">
+                            <label for="incomeClient">Client <span class="required">*</span></label>
+                            <input type="text" id="incomeClient" name="client_name" placeholder="Enter client name..." required>
+                            <div class="error" id="incomeClientError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incomeDate">Date <span class="required">*</span></label>
+                            <input type="date" id="incomeDate" name="job_date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incomeService">Service <span class="required">*</span></label>
+                            <select id="incomeService" name="service_id" required>
+                                <option value="">Select a service...</option>
+                            </select>
+                            <div class="error" id="incomeServiceError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incomeAmount">Amount <span class="required">*</span></label>
+                            <div class="money-input-group">
+                                <input type="number" id="incomeAmount" name="income" placeholder="0.00" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incomeDetails">Details</label>
+                            <textarea id="incomeDetails" name="service_details" placeholder="Job details..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Add Job</button>
+                    </form>
+                </div>
+
+                <!-- Expense Form -->
+                <div class="form-card">
+                    <h2 class="form-title expense">💰 Add Expense</h2>
+                    <form id="expenseForm">
+                        <div class="form-group">
+                            <label for="expenseClient">Client <span class="required">*</span></label>
+                            <input type="text" id="expenseClient" name="client_name" placeholder="Enter client name..." required>
+                            <div class="error" id="expenseClientError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expenseDate">Date <span class="required">*</span></label>
+                            <input type="date" id="expenseDate" name="expense_date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expenseAmount">Amount <span class="required">*</span></label>
+                            <div class="money-input-group">
+                                <input type="number" id="expenseAmount" name="expenses" placeholder="0.00" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expenseNotes">Notes</label>
+                            <textarea id="expenseNotes" name="expense_notes" placeholder="Gas, supplies, etc."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit expense">Add Expense</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <h2 class="summary-title">📋 Recent Entries</h2>
+            <div class="entries-list" id="entriesList">
+                <div class="empty-state">
+                    <p>No entries yet. Add a job or expense above.</p>
+                </div>
+            </div>
+
+            <div class="summary-stats">
+                <div class="stat-box income">
+                    <div class="stat-label">Total Income</div>
+                    <div class="stat-value">$<span id="totalIncomeAmount">0.00</span></div>
+                </div>
+                <div class="stat-box expense">
+                    <div class="stat-label">Total Expenses</div>
+                    <div class="stat-value">$<span id="totalExpenseAmount">0.00</span></div>
+                </div>
+                <div class="stat-box profit">
+                    <div class="stat-label">Net Profit</div>
+                    <div class="stat-value">$<span id="netProfitAmount">0.00</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allEntries = [];
+        let allClients = [];
+        let allServices = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadClients();
+            loadServices();
+            setTodayDates();
+            document.getElementById('clientForm').addEventListener('submit', handleClientSubmit);
+            document.getElementById('serviceForm').addEventListener('submit', handleServiceSubmit);
+            document.getElementById('incomeForm').addEventListener('submit', handleIncomeSubmit);
+            document.getElementById('expenseForm').addEventListener('submit', handleExpenseSubmit);
+        });
+
+        function setTodayDates() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('incomeDate').value = today;
+            document.getElementById('expenseDate').value = today;
+        }
+
+        async function loadClients() {
+            try {
+                const response = await fetch('/api/clients');
+                if (!response.ok) throw new Error('Failed to load clients');
+                allClients = await response.json();
+            } catch (error) {
+                console.error('Error loading clients:', error);
+            }
+        }
+
+        async function loadServices() {
+            try {
+                const response = await fetch('/api/services');
+                if (!response.ok) throw new Error('Failed to load services');
+                allServices = await response.json();
+
+                refreshServiceOptions();
+            } catch (error) {
+                console.error('Error loading services:', error);
+            }
+        }
+
+        function refreshServiceOptions(selectedId = '') {
+            const select = document.getElementById('incomeService');
+            select.innerHTML = '<option value="">Select a service...</option>';
+
+            allServices.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service.id;
+                option.textContent = `${service.ServiceName} ($${service.Cost.toFixed(2)})`;
+                select.appendChild(option);
+            });
+
+            if (selectedId) {
+                select.value = String(selectedId);
+            }
+        }
+
+        function findClientByName(clientName) {
+            return allClients.find(client => client.ClientName.toLowerCase() === clientName.toLowerCase());
+        }
+
+        async function createClientRecord(clientName) {
+            const response = await fetch('/api/clients', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ClientName: clientName })
+            });
+
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({}));
+                throw new Error(error.detail || 'Failed to create client');
+            }
+
+            const client = await response.json();
+            allClients.push(client);
+            return client;
+        }
+
+        async function createServiceRecord(serviceName, serviceCost) {
+            const response = await fetch('/api/services', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ServiceName: serviceName,
+                    Cost: parseFloat(serviceCost)
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({}));
+                throw new Error(error.detail || 'Failed to create service');
+            }
+
+            const service = await response.json();
+            allServices.push(service);
+            refreshServiceOptions(service.id);
+            return service;
+        }
+
+        async function getOrCreateClient(clientName) {
+            const existingClient = findClientByName(clientName);
+            if (existingClient) {
+                return existingClient;
+            }
+
+            return createClientRecord(clientName);
+        }
+
+        async function getExpenseServiceId() {
+            if (allServices.length > 0) {
+                return allServices[0].id;
+            }
+
+            const expenseService = await createServiceRecord('General Expense', 0);
+            return expenseService.id;
+        }
+
+        async function handleClientSubmit(e) {
+            e.preventDefault();
+            document.getElementById('clientError').textContent = '';
+            document.getElementById('clientSuccess').textContent = '';
+
+            const clientName = document.getElementById('clientName').value.trim();
+
+            if (!clientName) {
+                document.getElementById('clientError').textContent = 'Client name is required';
+                return;
+            }
+
+            try {
+                const existingClient = findClientByName(clientName);
+                if (existingClient) {
+                    document.getElementById('clientSuccess').textContent = `Client "${existingClient.ClientName}" already exists.`;
+                    return;
+                }
+
+                const client = await createClientRecord(clientName);
+                document.getElementById('clientSuccess').textContent = `Client "${client.ClientName}" created successfully.`;
+                document.getElementById('clientForm').reset();
+            } catch (error) {
+                console.error('Error creating client:', error);
+                document.getElementById('clientError').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function handleServiceSubmit(e) {
+            e.preventDefault();
+            document.getElementById('serviceError').textContent = '';
+            document.getElementById('serviceSuccess').textContent = '';
+
+            const serviceName = document.getElementById('serviceName').value.trim();
+            const serviceCost = document.getElementById('serviceCost').value;
+
+            if (!serviceName) {
+                document.getElementById('serviceError').textContent = 'Service name is required';
+                return;
+            }
+
+            if (!serviceCost || Number(serviceCost) < 0) {
+                document.getElementById('serviceError').textContent = 'Valid cost is required';
+                return;
+            }
+
+            try {
+                const service = await createServiceRecord(serviceName, serviceCost);
+                document.getElementById('serviceSuccess').textContent = `Service "${service.ServiceName}" created successfully.`;
+                document.getElementById('serviceForm').reset();
+            } catch (error) {
+                console.error('Error creating service:', error);
+                document.getElementById('serviceError').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function handleIncomeSubmit(e) {
+            e.preventDefault();
+            document.getElementById('incomeClientError').textContent = '';
+            document.getElementById('incomeServiceError').textContent = '';
+
+            const clientName = document.getElementById('incomeClient').value.trim();
+            const serviceId = document.getElementById('incomeService').value;
+
+            if (!clientName) {
+                document.getElementById('incomeClientError').textContent = 'Client name is required';
+                return;
+            }
+
+            if (!serviceId) {
+                document.getElementById('incomeServiceError').textContent = 'Service is required';
+                return;
+            }
+
+            try {
+                const client = await getOrCreateClient(clientName);
+
+                const jobData = {
+                    client_id: client.id,
+                    job_date: document.getElementById('incomeDate').value,
+                    service_id: parseInt(serviceId),
+                    service_details: document.getElementById('incomeDetails').value || null,
+                    income: parseFloat(document.getElementById('incomeAmount').value),
+                    expenses: 0,
+                    expense_notes: null,
+                    status: 'Scheduled'
+                };
+
+                const jobResponse = await fetch('/api/jobs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jobData)
+                });
+
+                if (!jobResponse.ok) throw new Error('Failed to save job');
+
+                const job = await jobResponse.json();
+                addEntryToDisplay(job, 'income');
+                document.getElementById('incomeForm').reset();
+                setTodayDates();
+                updateSummary();
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('incomeClientError').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function handleExpenseSubmit(e) {
+            e.preventDefault();
+            document.getElementById('expenseClientError').textContent = '';
+
+            const clientName = document.getElementById('expenseClient').value.trim();
+
+            if (!clientName) {
+                document.getElementById('expenseClientError').textContent = 'Client name is required';
+                return;
+            }
+
+            try {
+                const client = await getOrCreateClient(clientName);
+                const expenseServiceId = await getExpenseServiceId();
+
+                const jobData = {
+                    client_id: client.id,
+                    job_date: document.getElementById('expenseDate').value,
+                    service_id: expenseServiceId,
+                    service_details: null,
+                    income: 0,
+                    expenses: parseFloat(document.getElementById('expenseAmount').value),
+                    expense_notes: document.getElementById('expenseNotes').value || null,
+                    status: 'Completed'
+                };
+
+                const jobResponse = await fetch('/api/jobs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jobData)
+                });
+
+                if (!jobResponse.ok) throw new Error('Failed to save expense');
+
+                const job = await jobResponse.json();
+                addEntryToDisplay(job, 'expense');
+                document.getElementById('expenseForm').reset();
+                setTodayDates();
+                updateSummary();
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('expenseClientError').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        function addEntryToDisplay(job, type) {
+            const entriesList = document.getElementById('entriesList');
+            
+            if (entriesList.querySelector('.empty-state')) {
+                entriesList.innerHTML = '';
+            }
+
+            const entry = document.createElement('div');
+            entry.className = `entry-item ${type}`;
+            entry.dataset.jobId = job.id;
+
+            const amount = type === 'income' ? job.income : job.expenses;
+            const clientName = allClients.find(c => c.id === job.client_id)?.ClientName || 'Unknown';
+            const description = type === 'income' ? 
+                (job.service_details || 'Job') : 
+                (job.expense_notes || 'Expense');
+
+            entry.innerHTML = `
+                <div class="entry-content">
+                    <div class="entry-date">${formatDate(job.job_date)} • ${clientName}</div>
+                    <div class="entry-description">${description}</div>
+                    <div class="entry-amount">$${amount.toFixed(2)}</div>
+                </div>
+                <button class="entry-delete" onclick="deleteEntry(${job.id})">Delete</button>
+            `;
+
+            entriesList.prepend(entry);
+            allEntries.unshift({ ...job, type });
+        }
+
+        async function deleteEntry(jobId) {
+            if (!confirm('Delete this entry?')) return;
+
+            try {
+                const response = await fetch(`/api/jobs/${jobId}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Failed to delete');
+
+                document.querySelector(`[data-job-id="${jobId}"]`)?.remove();
+                allEntries = allEntries.filter(e => e.id !== jobId);
+                
+                if (allEntries.length === 0) {
+                    document.getElementById('entriesList').innerHTML = '<div class="empty-state"><p>No entries yet. Add a job or expense above.</p></div>';
+                }
+                
+                updateSummary();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete entry');
+            }
+        }
+
+        function updateSummary() {
+            const totalIncome = allEntries.reduce((sum, e) => sum + (e.income || 0), 0);
+            const totalExpense = allEntries.reduce((sum, e) => sum + (e.expenses || 0), 0);
+            const netProfit = totalIncome - totalExpense;
+
+            document.getElementById('totalIncomeAmount').textContent = totalIncome.toFixed(2);
+            document.getElementById('totalExpenseAmount').textContent = totalExpense.toFixed(2);
+            document.getElementById('netProfitAmount').textContent = netProfit.toFixed(2);
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr + 'T00:00:00');
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+    </script>
+</body>
+</html>

@@ -1,5 +1,24 @@
 from pydantic import BaseModel
 
+# -----------------------------
+# User Table Schemas
+# -----------------------------
+
+class UserBase(BaseModel):
+    username: str
+    FirstName: str
+    LastName: str
+
+class UserCreate(UserBase):
+    password: str
+
+class User(UserBase):
+    id: int
+    LastLoginDate: str | None = None
+
+class UserInDB(User):
+    hashed_password: str
+
 # Service Table Schema - defines the structure and validation for service data
 
 class ServiceBase(BaseModel):

@@ -12,10 +12,9 @@ body {
     color: #253d2c;
     line-height: 1.6;
     min-height: 100vh;
-    padding: 20px;
 }
 
-.container {
+body > .container {
     max-width: 1200px;
     margin: 0 auto;
     background: white;

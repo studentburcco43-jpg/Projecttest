@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Setup login form validation and submit
 function setupLoginForm() {
     const loginForm = document.getElementById('loginForm');
-    const emailInput = document.getElementById('email');
+    const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const loginBtn = document.getElementById('loginBtn');
     const loginSpinner = document.getElementById('loginSpinner');
@@ -17,14 +17,14 @@ function setupLoginForm() {
     if (!loginForm) return;
 
     // Real-time validation as user types
-    emailInput.addEventListener('blur', validateEmail);
+    usernameInput.addEventListener('blur', validateUsername);
     passwordInput.addEventListener('blur', validatePassword);
 
     // Clear error messages when user starts typing
-    emailInput.addEventListener('input', function() {
+    usernameInput.addEventListener('input', function() {
         if (this.classList.contains('is-invalid')) {
             this.classList.remove('is-invalid');
-            document.getElementById('emailError').textContent = '';
+            document.getElementById('usernameError').textContent = '';
         }
     });
 
@@ -40,10 +40,10 @@ function setupLoginForm() {
         e.preventDefault();
 
         // Validate both fields
-        const emailValid = validateEmail();
+        const usernameValid = validateUsername();
         const passwordValid = validatePassword();
 
-        if (!emailValid || !passwordValid) {
+        if (!usernameValid || !passwordValid) {
             return;
         }
 
@@ -53,23 +53,17 @@ function setupLoginForm() {
         btnText.textContent = 'Signing in...';
 
         try {
-            // Simulate API call (replace with actual backend call)
-            await simulateLogin(emailInput.value, passwordInput.value);
-
-            // Show success message
-            showSuccessMessage('Login successful! Redirecting...');
+            await loginUser(usernameInput.value, passwordInput.value);
 
             // Save preference if remember me is checked
             if (document.getElementById('rememberMe').checked) {
-                localStorage.setItem('rememberedEmail', emailInput.value);
+                localStorage.setItem('rememberedUsername', usernameInput.value);
             } else {
-                localStorage.removeItem('rememberedEmail');
+                localStorage.removeItem('rememberedUsername');
             }
 
-            // Redirect after 1.5 seconds
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
+            // Redirect on success
+            window.location.href = 'index.html';
 
         } catch (error) {
             showErrorMessage(error.message);
@@ -80,26 +74,19 @@ function setupLoginForm() {
     });
 }
 
-// Validate email format
-function validateEmail() {
-    const emailInput = document.getElementById('email');
-    const emailError = document.getElementById('emailError');
-    const email = emailInput.value.trim();
+// Validate username
+function validateUsername() {
+    const usernameInput = document.getElementById('username');
+    const usernameError = document.getElementById('usernameError');
+    const username = usernameInput.value.trim();
 
-    // Simple email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email) {
-        emailInput.classList.add('is-invalid');
-        emailError.textContent = 'Email is required';
-        return false;
-    } else if (!emailRegex.test(email)) {
-        emailInput.classList.add('is-invalid');
-        emailError.textContent = 'Please enter a valid email address';
+    if (!username) {
+        usernameInput.classList.add('is-invalid');
+        usernameError.textContent = 'Username is required';
         return false;
     } else {
-        emailInput.classList.remove('is-invalid');
-        emailError.textContent = '';
+        usernameInput.classList.remove('is-invalid');
+        usernameError.textContent = '';
         return true;
     }
 }
@@ -139,31 +126,33 @@ function setupPasswordToggle() {
     });
 }
 
-// Perform login by posting to server-side script
-function simulateLogin(email, password) {
-    return fetch('Login.php', {
+// Call the FastAPI login endpoint and return a resolved promise on success
+function loginUser(username, password) {
+    return fetch('/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-    }).then(resp => {
-        if (resp.redirected) {
-            // PHP script redirected to index.html on success
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+    }).then(async resp => {
+        if (resp.ok) {
             return Promise.resolve();
         }
-        // otherwise treat as failure
-        return resp.text().then(txt => {
-            throw new Error(txt || 'Login failed');
-        });
+        const data = await resp.json().catch(() => ({}));
+        throw new Error(data.detail || 'Login failed');
     });
 }
 
-// Show error message using toast
+// Show error message using toast or inline alert
 function showErrorMessage(message) {
+    const loginError = document.getElementById('loginError');
+    if (loginError) {
+        loginError.textContent = message;
+        loginError.classList.remove('d-none');
+        return;
+    }
     const toast = document.getElementById('errorToast');
     const toastMessage = document.getElementById('toastMessage');
-
     if (toast && toastMessage) {
         toastMessage.textContent = message;
         const bsToast = new bootstrap.Toast(toast);
@@ -173,7 +162,6 @@ function showErrorMessage(message) {
 
 // Show success message
 function showSuccessMessage(message) {
-    // Create a temporary success toast
     const toastContainer = document.querySelector('.toast-container');
     if (toastContainer) {
         const successToast = document.createElement('div');
@@ -189,21 +177,20 @@ function showSuccessMessage(message) {
         `;
         toastContainer.appendChild(successToast);
 
-        // Auto remove after 3 seconds
         setTimeout(() => {
             successToast.remove();
         }, 3000);
     }
 }
 
-// Load remembered email if it exists
+// Load remembered username if it exists
 document.addEventListener('DOMContentLoaded', function() {
-    const rememberedEmail = localStorage.getItem('rememberedEmail');
-    if (rememberedEmail) {
-        const emailInput = document.getElementById('email');
+    const rememberedUsername = localStorage.getItem('rememberedUsername');
+    if (rememberedUsername) {
+        const usernameInput = document.getElementById('username');
         const rememberMeCheckbox = document.getElementById('rememberMe');
-        if (emailInput && rememberMeCheckbox) {
-            emailInput.value = rememberedEmail;
+        if (usernameInput && rememberMeCheckbox) {
+            usernameInput.value = rememberedUsername;
             rememberMeCheckbox.checked = true;
         }
     }

@@ -1,6 +1,44 @@
 import sqlite3
+from datetime import datetime, timezone
 from . import schemas
 # CRUD = Create, Read, Update, Delete operations for managing database data
+
+# -----------------------------
+# CRUD for User Table
+# -----------------------------
+
+def get_user_by_username(conn: sqlite3.Connection, username: str) -> "schemas.UserInDB | None":
+    cur = conn.execute(
+        "SELECT id, username, hashed_password, FirstName, LastName, LastLoginDate FROM user WHERE username = ?",
+        (username,)
+    )
+    row = cur.fetchone()
+    if row is None:
+        return None
+    return schemas.UserInDB(
+        id=row["id"],
+        username=row["username"],
+        hashed_password=row["hashed_password"],
+        FirstName=row["FirstName"],
+        LastName=row["LastName"],
+        LastLoginDate=row["LastLoginDate"],
+    )
+
+def create_user(conn: sqlite3.Connection, username: str, hashed_password: str, first_name: str, last_name: str) -> schemas.User:
+    cur = conn.execute(
+        "INSERT INTO user (username, hashed_password, FirstName, LastName) VALUES (?, ?, ?, ?);",
+        (username, hashed_password, first_name, last_name)
+    )
+    conn.commit()
+    return schemas.User(id=cur.lastrowid, username=username, FirstName=first_name, LastName=last_name)
+
+def update_last_login(conn: sqlite3.Connection, user_id: int) -> None:
+    conn.execute(
+        "UPDATE user SET LastLoginDate = ? WHERE id = ?",
+        (datetime.now(timezone.utc).isoformat(), user_id)
+    )
+    conn.commit()
+
 # These functions handle all interactions with the service table
 
 # READ - fetch all services from the database

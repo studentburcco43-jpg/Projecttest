@@ -1,10 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header('Location: index.html');
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,27 +18,24 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
             <div class="login-header">
                 <h1>Welcome Back</h1>
                 <p>Sign in to your account</p>
-                <?php if (isset($_GET['error'])): ?>
-                    <div class="alert alert-danger" role="alert">
-                        Invalid email or password.
-                    </div>
-                <?php endif; ?>
+                <div class="alert alert-danger d-none" id="loginError" role="alert"></div>
             </div>
 
             <!-- Login Form -->
-            <form id="loginForm" class="login-form" novalidate method="post" action="Login.php">
-                <!-- Email Input -->
+            <form id="loginForm" class="login-form" novalidate>
+                <!-- Username Input -->
                 <div class="form-group mb-3">
-                    <label for="email" class="form-label">Email Address</label>
+                    <label for="username" class="form-label">Username</label>
                     <input 
-                        type="email" 
+                        type="text" 
                         class="form-control" 
-                        id="email" 
-                        name="email"
-                        placeholder="you@example.com"
+                        id="username" 
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
                         required
                     >
-                    <div class="invalid-feedback" id="emailError"></div>
+                    <div class="invalid-feedback" id="usernameError"></div>
                 </div>
 
                 <!-- Password Input -->
@@ -93,25 +83,19 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
             </form>
 
             <!-- Forgot Password Link -->
-            <div class="text-center mb-4">
+            <!-- <div class="text-center mb-4">
                 <a href="#" class="forgot-password-link">Forgot your password?</a>
             </div>
 
-            <!-- Divider -->
+            <!-- Divider
             <div class="divider">
                 <span>or</span>
-            </div>
-
-            <!-- Demo Credentials -->
-            <div class="demo-section mt-4 p-3 bg-light rounded">
-                <p class="demo-title"><strong>Demo Credentials:</strong></p>
-                <p class="demo-text">Email: <code>demo@grimeguys.com</code></p>
-                <p class="demo-text">Password: <code>demo123</code></p>
-            </div>
+            </div> -->
 
             <!-- Sign Up Link -->
             <div class="text-center mt-4">
-                <p>Don't have an account? <a href="#" class="signup-link">Sign up here</a></p>
+                <p>REMOVE THIS!</p>
+                <p>username: admin, password: grimeadmin</p>
             </div>
         </div>
     </main>

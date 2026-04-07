@@ -1,5 +1,4 @@
-<?php include 'auth.php'; ?>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,62 +7,7 @@
   <!-- Load Bootstrap CSS and custom styles -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/site.css?v=8">
-  <style>
-    /* Lawncare-themed table that looks like stacked cards */
-    body {
-      background: linear-gradient(180deg,#ffffff 0%, #e9f9e6 50%, #ffffff 100%);
-      color: #1f3b13;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    /* wrapper keeps content centered and gives breathing room */
-    .fancy-table-wrapper{
-      max-width:900px; /* slightly narrower for neat look */
-      margin:0 auto;
-      padding:0 15px; /* prevent cards from touching screen edges */
-    }
-
-    /* table with block-level rows for card appearance */
-    .fancy-table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0 16px;
-    }
-
-    /* Keep thead hidden visually but accessible to screen readers */
-    .fancy-table thead{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      border:0;
-    }
-    .fancy-table tbody tr{display:block;background:linear-gradient(180deg,#9dd88c 0%, #ffffff 100%);box-shadow:0 8px 20px rgba(54, 94, 37, 0.06);border-radius:12px;padding:18px;transition:transform .18s ease,box-shadow .18s ease}
-    .fancy-table tbody tr:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(31,59,19,0.12)}
-    .job-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;align-items:center}
-    .job-cell{padding:6px 10px}
-    .job-id{font-weight:700;color:#1b6611}
-    .job-title{font-size:1.05rem;font-weight:600}
-    .job-meta{font-size:.88rem;color:#397c3c}
-    .status-pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:600;font-size:.82rem}
-    .status-scheduled{background:linear-gradient(90deg,#e0e406,#c9f0c3);color:#0b5b0f}
-    .status-inprogress{background:linear-gradient(90deg,#aabd00,#f2f3b4);color:#ffffff}
-    .status-complete{background:linear-gradient(90deg,#e6fff7,#8df7d5);color:#00664d}
-    .notes{font-size:.9rem;color:#25882a}
-    .job-actions{text-align:right}
-    .price{font-weight:700;color:#13722b}
-    @media (max-width:900px){
-      .job-row{grid-template-columns:1fr 1fr;}
-    }
-    @media (max-width:520px){
-      .job-row{grid-template-columns:1fr;}
-      .job-actions{text-align:left;margin-top:8px}
-    }
-    /* subtle decorative grass at card bottom */
-    .job-row::after{content:'';display:block;height:8px;border-bottom-left-radius:12px;border-bottom-right-radius:12px;margin-top:12px;background:linear-gradient(90deg,#9dd17a 0%,#9dd17a 50%,#9dd17a 100%);opacity:.08}
-  </style>
+  <link rel="stylesheet" href="css/Job.css">
 </head>
 <body>
   <!-- Header Component: navigation and toast container (loaded by app.js) -->
@@ -188,6 +132,7 @@
     </table>
   </main>
 
+  <div id="footer-component"></div>
 
   <!-- Load Bootstrap JS and site script that loads the header -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

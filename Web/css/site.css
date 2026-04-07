@@ -85,6 +85,12 @@ a:hover, a:focus {
 	color: #e9f9e6 !important;
 }
 
+/* Reset font on the header container so pages with heavy body fonts don't affect the navbar */
+#header-component {
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	font-weight: normal;
+}
+
 /* Override some Bootstrap utility classes to reinforce the green palette */
 .bg-light {
 	background-color: #e9f9e6 !important; /* soft green */

@@ -53,6 +53,18 @@ def init_db() -> None:
             );
         """)
 
+        # This SQL command creates the user table to store user accounts with hashed credentials and profile info.
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS user (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL UNIQUE,
+                hashed_password TEXT NOT NULL,
+                FirstName TEXT NOT NULL,
+                LastName TEXT NOT NULL,
+                LastLoginDate TEXT
+            );
+        """)
+
         # This SQL command creates the job table to store job entries, including client ID, job date, service ID, details, income, expenses, notes, and status, with foreign keys to client and service tables.
         conn.execute("""
             CREATE TABLE IF NOT EXISTS job (
@@ -77,6 +89,12 @@ def init_db() -> None:
     finally:
         # This ensures the database connection is closed properly, even if an error occurs.
         conn.close()
+
+
+# This generator function provides a database connection as a FastAPI dependency, used with Depends().
+def get_db():
+    with get_conn() as conn:
+        yield conn
 
 
 # This decorator defines a context manager to safely get and close database connections, preventing resource leaks.

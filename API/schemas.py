@@ -19,6 +19,12 @@ class User(UserBase):
 class UserInDB(User):
     hashed_password: str
 
+class UserUpdate(BaseModel):
+    username: str | None = None
+    FirstName: str | None = None
+    LastName: str | None = None
+    password: str | None = None
+
 # Service Table Schema - defines the structure and validation for service data
 
 class ServiceBase(BaseModel):

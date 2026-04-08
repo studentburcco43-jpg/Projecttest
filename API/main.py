@@ -39,8 +39,22 @@ from pathlib import Path
 # This import brings in the logging module.
 import logging
 
+# This import brings in the os module for reading environment variables.
+import os
+
+# Read environment variables for HTTPS configuration.
+# Set HTTPS=true when running behind TLS (uvicorn --ssl-certfile / --ssl-keyfile or a reverse proxy).
+HTTPS_ENABLED: bool = os.environ.get("HTTPS", "false").lower() == "true"
+# Set HTTPS_REDIRECT=true to automatically redirect all HTTP requests to HTTPS.
+HTTPS_REDIRECT: bool = os.environ.get("HTTPS_REDIRECT", "false").lower() == "true"
+
 # This line creates a new instance of the FastAPI application.
 app = FastAPI()
+
+# Redirect HTTP → HTTPS when HTTPS_REDIRECT is enabled (e.g. in production behind a load balancer).
+if HTTPS_REDIRECT:
+    from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
+    app.add_middleware(HTTPSRedirectMiddleware)
 
 # CORS middleware — should be restricted to specific origins in production.
 app.add_middleware(
@@ -88,7 +102,7 @@ def login(
         httponly=True,
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         samesite="lax",
-        secure=False,  # Set to True when serving over HTTPS in production
+        secure=HTTPS_ENABLED,  # Automatically True when HTTPS=true env var is set
     )
     return {"message": "Login successful"}
 
@@ -222,6 +236,30 @@ def get_job(job_id: int, db: sqlite3.Connection = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Not Found")
     return job
 
+# --- Users ---
+@api_router.get("/users", response_model=list[schemas.User])
+def get_users(db: sqlite3.Connection = Depends(get_db)):
+    return crud.get_users(db)
+
+@api_router.post("/users", response_model=schemas.User, status_code=201)
+def create_user(user: schemas.UserCreate, db: sqlite3.Connection = Depends(get_db)):
+    if crud.get_user_by_username(db, user.username):
+        raise HTTPException(status_code=400, detail="Username already registered")
+    hashed = hash_password(user.password)
+    return crud.create_user(db, user.username, hashed, user.FirstName, user.LastName)
+
+@api_router.put("/users/{user_id}", response_model=list[schemas.User])
+def update_user(user_id: int, updates: schemas.UserUpdate, db: sqlite3.Connection = Depends(get_db)):
+    hashed = hash_password(updates.password) if updates.password else None
+    updated = crud.update_user(db, user_id, updates, hashed)
+    if updated is None:
+        raise HTTPException(status_code=404, detail="Not Found")
+    return updated
+
+@api_router.delete("/users/{user_id}", status_code=204)
+def delete_user(user_id: int, db: sqlite3.Connection = Depends(get_db)):
+    return crud.delete_user(db, user_id)
+
 app.include_router(api_router)
 
 # ---------------------------------------------------------------------------
@@ -252,19 +290,24 @@ def quick_entry_page(request: Request, username: str | None = Depends(_get_page_
     return templates.TemplateResponse("quick-entry.html", {"request": request})
 
 
-@app.get("/Job.html", include_in_schema=False)
+@app.get("/job.html", include_in_schema=False)
 def job_page(request: Request, username: str | None = Depends(_get_page_user)):
     if not username:
         return RedirectResponse(url="/login.html", status_code=302)
-    return templates.TemplateResponse("Job.html", {"request": request})
+    return templates.TemplateResponse("job.html", {"request": request})
 
 
-@app.get("/Profit.html", include_in_schema=False)
+@app.get("/profit.html", include_in_schema=False)
 def profit_page(request: Request, username: str | None = Depends(_get_page_user)):
     if not username:
         return RedirectResponse(url="/login.html", status_code=302)
-    return templates.TemplateResponse("Profit.html", {"request": request})
+    return templates.TemplateResponse("profit.html", {"request": request})
 
+@app.get("/admin.html", include_in_schema=False)
+def admin_page(request: Request, username: str | None = Depends(_get_page_user)):
+    if not username:
+        return RedirectResponse(url="/login.html", status_code=302)
+    return templates.TemplateResponse("admin.html", {"request": request})
 
 if not STATIC_DIR.exists():
     logging.warning("Static directory %s does not exist", STATIC_DIR)

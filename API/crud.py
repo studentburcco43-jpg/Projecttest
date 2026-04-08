@@ -306,3 +306,46 @@ def get_job(conn, job_id: int):
             status=row[8]
         )
     return None
+
+# -----------------------------
+# CRUD for User Table
+# -----------------------------
+
+def get_users(conn: sqlite3.Connection) -> list[schemas.User]:
+    cur = conn.execute("SELECT id, username, FirstName, LastName, LastLoginDate FROM user ORDER BY id;")
+    rows = cur.fetchall()
+    return [schemas.User(id=row["id"], username=row["username"], FirstName=row["FirstName"], LastName=row["LastName"], LastLoginDate=row["LastLoginDate"]) for row in rows]
+
+def create_user(conn: sqlite3.Connection, user: schemas.UserCreate) -> list[schemas.User]:
+    conn.execute(
+        "INSERT INTO user (username, hashed_password, FirstName, LastName) VALUES (?, ?, ?, ?);",
+        (user.username, user.hashed_password, user.FirstName, user.LastName)
+    )
+    conn.commit()
+    return get_users(conn)
+
+def delete_user(conn: sqlite3.Connection, user_id: int) -> list[schemas.User]:
+    conn.execute("DELETE FROM user WHERE id = ?;", (user_id,))
+    conn.commit()
+    return get_users(conn)
+
+def update_user(conn: sqlite3.Connection, user_id: int, updates: schemas.UserUpdate, hashed_password: str | None = None) -> list[schemas.User] | None:
+    cur = conn.execute("SELECT id, username, FirstName, LastName, LastLoginDate FROM user WHERE id = ?;", (user_id,))
+    row = cur.fetchone()
+    if row is None:
+        return None
+    username = updates.username if updates.username is not None else row["username"]
+    first_name = updates.FirstName if updates.FirstName is not None else row["FirstName"]
+    last_name = updates.LastName if updates.LastName is not None else row["LastName"]
+    if hashed_password is not None:
+        conn.execute(
+            "UPDATE user SET username = ?, FirstName = ?, LastName = ?, hashed_password = ? WHERE id = ?;",
+            (username, first_name, last_name, hashed_password, user_id),
+        )
+    else:
+        conn.execute(
+            "UPDATE user SET username = ?, FirstName = ?, LastName = ? WHERE id = ?;",
+            (username, first_name, last_name, user_id),
+        )
+    conn.commit()
+    return get_users(conn)

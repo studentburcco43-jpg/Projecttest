@@ -16,3 +16,4 @@ build/
 *.egg-info/
 pip-wheel-metadata/
 .DS_Store
+certs/

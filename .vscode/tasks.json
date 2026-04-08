@@ -60,6 +60,82 @@
                 "reveal": "silent",
                 "panel": "shared"
             }
+        },
+        {
+            "label": "Start FastAPI Server (HTTPS)",
+            "type": "shell",
+            "command": ".venv\\Scripts\\python.exe",
+            "args": [
+                "-m",
+                "uvicorn",
+                "API.main:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8443",
+                "--ssl-certfile",
+                "certs/cert.pem",
+                "--ssl-keyfile",
+                "certs/key.pem"
+            ],
+            "options": {
+                "env": {
+                    "HTTPS": "true"
+                }
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*Uvicorn running on.*",
+                    "endsPattern": ".*Application startup complete.*"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Open Website in Browser (HTTPS)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "Start-Sleep -Seconds 2; Start-Process 'https://localhost:8443'"
+            ],
+            "dependsOn": ["Start FastAPI Server (HTTPS)"],
+            "dependsOrder": "sequence",
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Generate Dev Certificates",
+            "type": "shell",
+            "command": ".venv\\Scripts\\python.exe",
+            "args": ["scripts/generate-dev-cert.py"],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
         }
     ]
 }

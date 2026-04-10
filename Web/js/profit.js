@@ -2,7 +2,6 @@
 
 const API_BASE = "https://emissions-stay-jacob-engaged.trycloudflare.com/api/profits";
 
-
 // DOM Elements
 const addProfitForm = document.getElementById('addProfitForm');
 const editProfitForm = document.getElementById('editProfitForm');
@@ -11,6 +10,10 @@ const noEntriesMessage = document.getElementById('noEntriesMessage');
 const editModal = document.getElementById('editModal');
 const closeModalBtn = document.querySelector('.close');
 const cancelEditBtn = document.getElementById('cancelEdit');
+const profitChartCanvas = document.getElementById('profitChart');
+const profitChartEmpty = document.getElementById('profitChartEmpty');
+
+let profitChart = null;
 
 // Summary Elements
 const totalRevenueEl = document.getElementById('totalRevenue');
@@ -35,10 +38,11 @@ async function loadProfits() {
     try {
         const response = await fetch(API_BASE);
         if (!response.ok) throw new Error('Failed to load profits');
-        
+
         const profits = await response.json();
         renderProfits(profits);
         updateSummary(profits);
+        renderProfitChart(profits);
     } catch (error) {
         console.error('Error loading profits:', error);
     }
@@ -47,7 +51,7 @@ async function loadProfits() {
 // Render profits in table
 function renderProfits(profits) {
     profitTableBody.innerHTML = '';
-    
+
     if (profits.length === 0) {
         noEntriesMessage.style.display = 'block';
     } else {
@@ -64,10 +68,10 @@ function createTableRow(profit) {
     const row = document.createElement('tr');
     const profitAmount = profit.revenue - profit.expenses;
     const margin = profit.revenue > 0 ? ((profitAmount / profit.revenue) * 100).toFixed(2) : 0;
-    
+
     const profitClass = profitAmount >= 0 ? 'profit-positive' : 'profit-negative';
     const profitSign = profitAmount >= 0 ? '+' : '';
-    
+
     row.innerHTML = `
         <td>${escapeHtml(profit.category)}</td>
         <td class="profit-value">$${profit.revenue.toFixed(2)}</td>
@@ -86,23 +90,23 @@ function createTableRow(profit) {
 // Handle add profit form submission
 async function handleAddProfit(e) {
     e.preventDefault();
-    
+
     const profit = {
         category: document.getElementById('category').value,
         revenue: parseFloat(document.getElementById('revenue').value),
         expenses: parseFloat(document.getElementById('expenses').value),
         notes: document.getElementById('notes').value
     };
-    
+
     try {
         const response = await fetch(API_BASE, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(profit)
         });
-        
+
         if (!response.ok) throw new Error('Failed to create profit entry');
-        
+
         addProfitForm.reset();
         loadProfits();
     } catch (error) {
@@ -116,15 +120,15 @@ async function openEditModal(profitId) {
     try {
         const response = await fetch(`${API_BASE}/${profitId}`);
         if (!response.ok) throw new Error('Failed to fetch profit');
-        
+
         const profit = await response.json();
-        
+
         document.getElementById('editProfitId').value = profit.id;
         document.getElementById('editCategory').value = profit.category;
         document.getElementById('editRevenue').value = profit.revenue;
         document.getElementById('editExpenses').value = profit.expenses;
         document.getElementById('editNotes').value = profit.notes || '';
-        
+
         editModal.style.display = 'block';
     } catch (error) {
         console.error('Error loading profit for edit:', error);
@@ -141,7 +145,7 @@ function closeEditModal() {
 // Handle edit profit form submission
 async function handleEditProfit(e) {
     e.preventDefault();
-    
+
     const profitId = parseInt(document.getElementById('editProfitId').value);
     const updates = {
         category: document.getElementById('editCategory').value,
@@ -149,16 +153,16 @@ async function handleEditProfit(e) {
         expenses: parseFloat(document.getElementById('editExpenses').value),
         notes: document.getElementById('editNotes').value
     };
-    
+
     try {
         const response = await fetch(`${API_BASE}/${profitId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updates)
         });
-        
+
         if (!response.ok) throw new Error('Failed to update profit entry');
-        
+
         closeEditModal();
         loadProfits();
     } catch (error) {
@@ -170,14 +174,14 @@ async function handleEditProfit(e) {
 // Delete profit entry
 async function deleteProfit(profitId) {
     if (!confirm('Are you sure you want to delete this entry?')) return;
-    
+
     try {
         const response = await fetch(`${API_BASE}/${profitId}`, {
             method: 'DELETE'
         });
-        
+
         if (!response.ok) throw new Error('Failed to delete profit entry');
-        
+
         loadProfits();
     } catch (error) {
         console.error('Error deleting profit:', error);
@@ -189,25 +193,105 @@ async function deleteProfit(profitId) {
 function updateSummary(profits) {
     let totalRevenue = 0;
     let totalExpenses = 0;
-    
+
     profits.forEach(profit => {
         totalRevenue += profit.revenue;
         totalExpenses += profit.expenses;
     });
-    
+
     const totalProfit = totalRevenue - totalExpenses;
     const profitMargin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100).toFixed(2) : 0;
-    
+
     totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
     totalExpensesEl.textContent = `$${totalExpenses.toFixed(2)}`;
     totalProfitEl.textContent = `$${totalProfit.toFixed(2)}`;
     profitMarginEl.textContent = `${profitMargin}%`;
-    
+
     if (totalProfit < 0) {
         totalProfitEl.style.color = '#f44336';
     } else {
         totalProfitEl.style.color = '#4CAF50';
     }
+}
+
+// Render the profit chart
+function renderProfitChart(profits) {
+    if (!profitChartCanvas) return;
+
+    const labels = profits.map(entry => entry.category || 'Category');
+    const profitValues = profits.map(entry => parseFloat((entry.revenue - entry.expenses).toFixed(2)));
+
+    if (profits.length === 0) {
+        if (profitChart) {
+            profitChart.destroy();
+            profitChart = null;
+        }
+        if (profitChartEmpty) profitChartEmpty.style.display = 'block';
+        profitChartCanvas.style.display = 'none';
+        return;
+    }
+
+    if (profitChartEmpty) profitChartEmpty.style.display = 'none';
+    profitChartCanvas.style.display = 'block';
+
+    const chartData = {
+        labels,
+        datasets: [
+            {
+                label: 'Profit by Category',
+                data: profitValues,
+                backgroundColor: 'rgba(102, 126, 234, 0.3)',
+                borderColor: 'rgba(102, 126, 234, 1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: 'rgba(102, 126, 234, 1)',
+                pointRadius: 5,
+            }
+        ]
+    };
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return `$${value}`;
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const value = context.parsed.y || 0;
+                        return `Profit: $${value.toFixed(2)}`;
+                    }
+                }
+            }
+        }
+    };
+
+    if (profitChart) {
+        profitChart.data = chartData;
+        profitChart.options = chartOptions;
+        profitChart.update();
+        return;
+    }
+
+    profitChart = new Chart(profitChartCanvas, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions
+    });
 }
 
 // Utility: Escape HTML to prevent XSS

@@ -272,6 +272,11 @@ TEMPLATES_DIR = BASE_DIR / "templates"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 
+@app.get("/", include_in_schema=False)
+def index_page():
+    return RedirectResponse(url="/index.html", status_code=302)
+
+
 def _get_page_user(access_token: str | None = Cookie(default=None)) -> str | None:
     """Page-level auth check: returns the username or None (no exception raised)."""
     if not access_token:

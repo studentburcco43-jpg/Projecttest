@@ -2,34 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Open Website (F5)",
+            "name": "Launch Full Website",
             "type": "python",
             "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "API.main:app",
-                "--reload",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8000"
-            ],
-            "jinja": true,
+            "program": "${workspaceFolder}/launch_server.py",
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "preLaunchTask": "Open Website in Browser"
-        },
-        {
-            "name": "FastAPI Server (Debug)",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "API.main:app",
-                "--reload"
-            ],
-            "jinja": true,
-            "cwd": "${workspaceFolder}"
+            "console": "integratedTerminal"
         }
     ]
 }

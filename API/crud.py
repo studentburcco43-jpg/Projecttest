@@ -316,15 +316,13 @@ def get_users(conn: sqlite3.Connection) -> list[schemas.User]:
     rows = cur.fetchall()
     return [schemas.User(id=row["id"], username=row["username"], FirstName=row["FirstName"], LastName=row["LastName"], LastLoginDate=row["LastLoginDate"]) for row in rows]
 
-def create_user(conn: sqlite3.Connection, user: schemas.UserCreate) -> list[schemas.User]:
-    conn.execute(
-        "INSERT INTO user (username, hashed_password, FirstName, LastName) VALUES (?, ?, ?, ?);",
-        (user.username, user.hashed_password, user.FirstName, user.LastName)
-    )
-    conn.commit()
-    return get_users(conn)
+def delete_user(conn: sqlite3.Connection, user_id: int, current_user_id: int | None = None) -> list[schemas.User]:
+    users = get_users(conn)
+    if current_user_id is not None and user_id == current_user_id:
+        raise ValueError("You cannot delete yourself")
+    if len(users) <= 1:
+        raise ValueError("You cannot delete the last remaining user")
 
-def delete_user(conn: sqlite3.Connection, user_id: int) -> list[schemas.User]:
     conn.execute("DELETE FROM user WHERE id = ?;", (user_id,))
     conn.commit()
     return get_users(conn)
@@ -334,18 +332,31 @@ def update_user(conn: sqlite3.Connection, user_id: int, updates: schemas.UserUpd
     row = cur.fetchone()
     if row is None:
         return None
-    username = updates.username if updates.username is not None else row["username"]
-    first_name = updates.FirstName if updates.FirstName is not None else row["FirstName"]
-    last_name = updates.LastName if updates.LastName is not None else row["LastName"]
+
+    fields = []
+    params = []
+
+    if updates.username is not None:
+        fields.append("username = ?")
+        params.append(updates.username)
+
+    if updates.FirstName is not None:
+        fields.append("FirstName = ?")
+        params.append(updates.FirstName)
+
+    if updates.LastName is not None:
+        fields.append("LastName = ?")
+        params.append(updates.LastName)
+
     if hashed_password is not None:
-        conn.execute(
-            "UPDATE user SET username = ?, FirstName = ?, LastName = ?, hashed_password = ? WHERE id = ?;",
-            (username, first_name, last_name, hashed_password, user_id),
-        )
-    else:
-        conn.execute(
-            "UPDATE user SET username = ?, FirstName = ?, LastName = ? WHERE id = ?;",
-            (username, first_name, last_name, user_id),
-        )
+        fields.append("hashed_password = ?")
+        params.append(hashed_password)
+
+    if not fields:
+        return get_users(conn)
+
+    sql = f"UPDATE user SET {', '.join(fields)} WHERE id = ?;"
+    params.append(user_id)
+    conn.execute(sql, tuple(params))
     conn.commit()
     return get_users(conn)

@@ -211,6 +211,10 @@
             if (!confirm('Delete this user?')) { return; }
             const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
             if (res.ok) { await loadUsers(); }
+            else {
+                const err = await res.json();
+                alert(err.detail ?? 'Failed to delete user.');
+            }
         }
 
         loadUsers();

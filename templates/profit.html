@@ -64,6 +64,17 @@
                 </div>
             </section>
 
+            <!-- Profit Chart Section -->
+            <section class="chart-section">
+                <h2>Profit Performance Chart</h2>
+                <div class="chart-card">
+                    <canvas id="profitChart" height="250"></canvas>
+                    <div id="profitChartEmpty" class="no-entries">
+                        Add profit entries to display the chart.
+                    </div>
+                </div>
+            </section>
+
             <!-- Profit Entries Table -->
             <section class="entries-section">
                 <h2>Profit Entries</h2>
@@ -127,6 +138,7 @@
 
     <div id="footer-component"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/profit.js"></script>
     <script src="js/app.js"></script>
 </body>

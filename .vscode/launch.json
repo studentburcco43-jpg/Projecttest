@@ -2,25 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-           "name": "Open Website (Start Server then Open Browser)",
-    "type": "extensionHost",
-    "request": "launch",
-    "runtimeExecutable": "code",
-    "args": ["--open-url", "http://localhost:8000"],
-    "preLaunchTask": "Start FastAPI Server"
-
-        },
-        {
-            "name": "Python Debugger: FastAPI",
-            "type": "debugpy",
+            "name": "Launch Full Website",
+            "type": "python",
             "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "API.main:app",
-                "--reload"
-            ],
-            "jinja": true,
-            "cwd": "${workspaceFolder}"
+            "program": "${workspaceFolder}/launch_server.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
         }
     ]
 }

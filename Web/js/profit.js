@@ -1,6 +1,6 @@
 /* Profit Summary Application */
 
-const API_BASE = "https://emissions-stay-jacob-engaged.trycloudflare.com/api/profits";
+const API_BASE = "http://localhost:8000/api/profits";
 
 // DOM Elements
 const addProfitForm = document.getElementById('addProfitForm');

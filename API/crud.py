@@ -307,6 +307,46 @@ def get_job(conn, job_id: int):
         )
     return None
 
+def update_job(conn: sqlite3.Connection, job_id: int, job: schemas.JobUpdate) -> schemas.Job | None:
+    # Build dynamic update query
+    updates = []
+    params = []
+    
+    if job.client_id is not None:
+        updates.append("client_id = ?")
+        params.append(job.client_id)
+    if job.job_date is not None:
+        updates.append("job_date = ?")
+        params.append(job.job_date)
+    if job.service_id is not None:
+        updates.append("service_id = ?")
+        params.append(job.service_id)
+    if job.service_details is not None:
+        updates.append("service_details = ?")
+        params.append(job.service_details)
+    if job.income is not None:
+        updates.append("income = ?")
+        params.append(job.income)
+    if job.expenses is not None:
+        updates.append("expenses = ?")
+        params.append(job.expenses)
+    if job.expense_notes is not None:
+        updates.append("expense_notes = ?")
+        params.append(job.expense_notes)
+    if job.status is not None:
+        updates.append("status = ?")
+        params.append(job.status)
+    
+    if not updates:
+        return get_job(conn, job_id)
+    
+    params.append(job_id)
+    query = f"UPDATE job SET {', '.join(updates)} WHERE id = ?"
+    conn.execute(query, params)
+    conn.commit()
+    
+    return get_job(conn, job_id)
+
 # -----------------------------
 # CRUD for User Table
 # -----------------------------

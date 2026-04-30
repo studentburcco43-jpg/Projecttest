@@ -19,113 +19,14 @@
     <p class="text-muted">Overview of recent and upcoming jobs.</p>
 
     <table class="fancy-table" role="grid" aria-label="Job summary table with job ID, client address, schedule, and details">
-      <tbody>
+      <tbody id="jobsTableBody">
+        <!-- Jobs will be loaded dynamically from database -->
         <tr>
-          <td role="gridcell">
-            <div class="row"><div class="job-id">#J-001</div></div>
-            <div class="job-row">
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <div class="job-meta">Date:</div>
-                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
-                  <option value="scheduled" selected>Scheduled</option>
-                  <option value="inprogress">In Progress</option>
-                  <option value="complete">Completed</option>
-                </select>
-              </div>
+          <td colspan="5" class="text-center text-muted py-5">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td role="gridcell">
-            <div class="row"><div class="job-id">#J-002</div></div>
-            <div class="job-row">
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <div class="job-meta">Date:</div>
-                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
-                  <option value="scheduled">Scheduled</option>
-                  <option value="inprogress" selected>In Progress</option>
-                  <option value="complete">Completed</option>
-                </select>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td role="gridcell">
-            <div class="row"><div class="job-id">#J-003</div></div>
-            <div class="job-row">
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <div class="job-meta">Date:</div>
-                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
-                  <option value="scheduled" selected>Scheduled</option>
-                  <option value="inprogress">In Progress</option>
-                  <option value="complete">Completed</option>
-                </select>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td role="gridcell">
-            <div class="row"><div class="job-id">#J-004</div></div>
-            <div class="job-row">
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Job Title:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter job title" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter client name" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Location:</label>
-                <input type="text" class="form-control form-control-sm mt-1" placeholder="Enter location" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">
-              </div>
-              <div class="job-cell">
-                <div class="job-meta">Date:</div>
-                <select class="form-select form-select-sm mt-1 status-pill status-select" style="border-radius: 999px; font-weight: 600; border:none;">
-                  <option value="scheduled">Scheduled</option>
-                  <option value="inprogress">In Progress</option>
-                  <option value="complete" selected>Completed</option>
-                </select>
-              </div>
-            </div>
+            <p class="mt-2">Loading jobs...</p>
           </td>
         </tr>
       </tbody>
@@ -138,29 +39,189 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js"></script>
   <script>
-    /* Enhance table accessibility: announce job cards to screen readers */
+    let allJobs = [];
+    let allClients = [];
+    let allServices = [];
+
     document.addEventListener('DOMContentLoaded', function() {
-      const rows = document.querySelectorAll('.fancy-table tbody tr');
-      rows.forEach((row, index) => {
-        row.setAttribute('role', 'row');
-        row.setAttribute('aria-rowindex', index + 2); /* +2 accounts for header row and 1-based indexing */
-      });
+      loadData();
     });
+
+    async function loadData() {
+      try {
+        // Load clients and services first
+        const [clientsRes, servicesRes] = await Promise.all([
+          fetch('/api/clients'),
+          fetch('/api/services')
+        ]);
+        
+        allClients = await clientsRes.json();
+        allServices = await servicesRes.json();
+        
+        // Then load jobs
+        await loadJobs();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('jobsTableBody').innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center text-danger py-5">
+              <p>Error loading jobs. Please try again.</p>
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    async function loadJobs() {
+      try {
+        const response = await fetch('/api/jobs');
+        if (!response.ok) throw new Error('Failed to load jobs');
+        
+        allJobs = await response.json();
+        renderJobs();
+      } catch (error) {
+        console.error('Error loading jobs:', error);
+      }
+    }
+
+    function getClientName(clientId) {
+      const client = allClients.find(c => c.id === clientId);
+      return client ? client.ClientName : 'Unknown';
+    }
+
+    function getServiceName(serviceId) {
+      const service = allServices.find(s => s.id === serviceId);
+      return service ? service.ServiceName : 'Unknown';
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr + 'T00:00:00');
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function getStatusFromJob(job) {
+      if (job.status) {
+        return job.status.toLowerCase().replace(' ', '');
+      }
+      return 'scheduled';
+    }
+
+    function renderJobs() {
+      const tbody = document.getElementById('jobsTableBody');
+      
+      if (allJobs.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center text-muted py-5">
+              <p>No jobs found. Add a job using Quick Entry.</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = allJobs.map((job, index) => {
+        const status = getStatusFromJob(job);
+        const clientName = getClientName(job.client_id);
+        const serviceName = getServiceName(job.service_id);
+        
+        return `
+          <tr>
+            <td role="gridcell">
+              <div class="row"><div class="job-id">#J-${String(index + 1).padStart(3, '0')}</div></div>
+              <div class="job-row">
+                <div class="job-cell">
+                  <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Service:</label>
+                  <div class="form-control form-control-sm mt-1" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">${serviceName}</div>
+                </div>
+                <div class="job-cell">
+                  <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Client Name:</label>
+                  <div class="form-control form-control-sm mt-1" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">${clientName}</div>
+                </div>
+                <div class="job-cell">
+                  <label class="job-meta fw-semibold text-success" style="font-size: .85rem;">Amount:</label>
+                  <div class="form-control form-control-sm mt-1" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">$${(job.income || 0).toFixed(2)}</div>
+                </div>
+                <div class="job-cell">
+                  <div class="job-meta">Date:</div>
+                  <div class="form-control form-control-sm mt-1" style="border-radius: 12px; border: 1px solid #9dd88c; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: #f9fff9;">${formatDate(job.job_date)}</div>
+                </div>
+                <div class="job-cell">
+                  <div class="job-meta">Status:</div>
+                  <select class="form-select form-select-sm mt-1 status-pill status-select status-${status}" style="border-radius: 999px; font-weight: 600; border:none;" onchange="updateJobStatus(${job.id}, this.value)">
+                    <option value="Scheduled" ${job.status === 'Scheduled' ? 'selected' : ''}>Scheduled</option>
+                    <option value="In Progress" ${job.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                    <option value="Completed" ${job.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Apply status classes
+      document.querySelectorAll('.status-select').forEach(select => {
+        select.classList.remove('status-scheduled', 'status-inprogress', 'status-complete');
+        select.classList.add(`status-${select.value.toLowerCase().replace(' ', '')}`);
+      });
+    }
+
+    async function updateJobStatus(jobId, newStatus) {
+      const job = allJobs.find(j => j.id === jobId);
+      const oldStatus = job?.status;
+      
+      try {
+        const response = await fetch(`/api/jobs/${jobId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+        
+        if (!response.ok) throw new Error('Failed to update job');
+        
+        // Update local data
+        const jobIndex = allJobs.findIndex(j => j.id === jobId);
+        if (jobIndex !== -1) {
+          allJobs[jobIndex].status = newStatus;
+        }
+        
+        // If job is marked as Completed and has income, add to profit summary
+        if (newStatus === 'Completed' && oldStatus !== 'Completed' && job && job.income > 0) {
+          await addIncomeToProfit(job);
+        }
+      } catch (error) {
+        console.error('Error updating job:', error);
+        alert('Failed to update job status');
+      }
+    }
+
+    async function addIncomeToProfit(job) {
+      try {
+        const clientName = getClientName(job.client_id);
+        const serviceName = getServiceName(job.service_id);
+        
+        // Add to profit entries
+        const profitData = {
+          category: serviceName || 'Job Income',
+          revenue: job.income,
+          expenses: 0,
+          notes: `Job #J-${job.id} - ${clientName}`
+        };
+        
+        const response = await fetch('/api/profits', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(profitData)
+        });
+        
+        if (response.ok) {
+          console.log('Income added to profit summary');
+        }
+      } catch (error) {
+        console.error('Error adding income to profit:', error);
+      }
+    }
   </script>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const selects = document.querySelectorAll(".status-select");
-
-  selects.forEach(select => {
-    const applyClass = () => {
-      select.classList.remove("status-scheduled", "status-inprogress", "status-complete");
-      select.classList.add(`status-${select.value}`);
-    };
-
-    applyClass(); // set initial state
-    select.addEventListener("change", applyClass);
-  });
-});
-</script>
 </body>
 </html>

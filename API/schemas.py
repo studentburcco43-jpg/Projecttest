@@ -104,6 +104,16 @@ class JobBase(BaseModel):
 class JobCreate(JobBase):
     pass
 
+class JobUpdate(BaseModel):
+    client_id: int | None = None
+    job_date: str | None = None
+    service_id: int | None = None
+    service_details: str | None = None
+    income: float | None = None
+    expenses: float | None = None
+    expense_notes: str | None = None
+    status: str | None = None
+
 class Job(JobBase):
     id: int
 

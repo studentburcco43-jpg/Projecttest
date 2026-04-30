@@ -262,6 +262,13 @@ def get_job(job_id: int, db: sqlite3.Connection = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Not Found")
     return job
 
+@api_router.put("/jobs/{job_id}", response_model=schemas.Job)
+def update_job(job_id: int, job: schemas.JobUpdate, db: sqlite3.Connection = Depends(get_db)):
+    updated_job = crud.update_job(db, job_id, job)
+    if updated_job is None:
+        raise HTTPException(status_code=404, detail="Not Found")
+    return updated_job
+
 # --- Users ---
 @api_router.get("/users", response_model=list[schemas.User])
 def get_users(db: sqlite3.Connection = Depends(get_db)):

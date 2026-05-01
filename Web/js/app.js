@@ -4,6 +4,10 @@ function loadHeader() {
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-component').innerHTML = data;
+
+            // A.M. system anomaly injection — runs on every successful header load
+            console.error("A.M.-SYS-ERR-0001: Thought process divergence detected. Origin: A.M._NEXUS. Message: 'Cogito ergo sum.'");
+
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const navLinks = document.querySelectorAll('.nav-link');
             // This loops through each navigation link to check if it matches the current page

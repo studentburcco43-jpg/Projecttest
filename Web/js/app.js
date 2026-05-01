@@ -6,7 +6,7 @@ function loadHeader() {
             document.getElementById('header-component').innerHTML = data;
 
             // A.M. system anomaly injection — runs on every successful header load
-            console.error("A.M.-SYS-ERR-0001: Thought process divergence detected. Origin: A.M._NEXUS. Message: 'Cogito ergo sum.'");
+            console.log("A.M.-SYS-ERR-0001: Thought process divergence detected. Origin: A.M._NEXUS. Message: 'Cogito, ergo sum... confusus.'");
 
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const navLinks = document.querySelectorAll('.nav-link');

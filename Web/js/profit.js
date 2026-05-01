@@ -1,6 +1,6 @@
 /* Profit Summary Application */
 
-const API_BASE = "http://localhost:8000/api/profits";
+const API_BASE = window.location.origin + "/api/profits";
 
 // DOM Elements
 const addProfitForm = document.getElementById('addProfitForm');
